@@ -11,7 +11,9 @@ An isolated Phase 1 research harness exists; product runtime and integrations re
 
 ## Phase 1 — Technical spike and contracts
 
-- [ ] Verify official client capabilities and select first two executable test integrations.
+- [x] Select first validation pair: Codex CLI/Gemini CLI; Antigravity next, with IDE/App/CLI distinguished.
+- [x] Review official Gemini CLI/Antigravity integration documentation.
+- [ ] Verify exact installed versions and execute first-pair client tests.
 - [ ] Validate TypeScript runtime/dependency options, including Windows setup.
 - [ ] Finalize schema versioning, IDs, evidence levels and state transitions.
 - [ ] Compare journaled files and SQLite plus export for atomic writes, cross-process conflicts, multi-record recovery and schema migration.
@@ -33,7 +35,8 @@ Gate: P2 fixture/CLI checks V02–V10, V14 (local), V17 in VALIDATION.md pass. A
 
 ## Phase 3 — Handoff and learning
 
-- [ ] Implement first two adapters with preview, backups and rollback.
+- [ ] Implement Codex CLI and Gemini CLI adapters with preview, backups and rollback.
+- [ ] Implement and validate the selected Antigravity surface next; do not infer CLI support from IDE/App tests.
 - [ ] Test real sessions and cross-agent handoff, including abrupt interruption; document capture level, triggers and last acknowledged persistence.
 - [ ] Add evidence-linked private skill drafts and lifecycle controls.
 - [ ] Add skill correction, deduplication, retirement, explicit promotion and deletion propagation.
@@ -42,7 +45,7 @@ Gate: V01, V11–V13 and V16 for first pair pass; report remaining capture gaps.
 
 ## Phase 4 — Remaining targets and evaluation
 
-- [ ] Extend Cursor, Gemini CLI, Antigravity and Manus according to capability findings; update order if first pair differs.
+- [ ] Extend Claude Code, Cursor and Manus; validate any remaining Antigravity surfaces separately.
 - [ ] Publish exact tested versions/OS and unsupported modes.
 - [ ] Evaluate retrieval relevance, grounding and continuity against plain files and selected alternatives.
 - [ ] Report token/context size, latency, setup friction and actual costs.

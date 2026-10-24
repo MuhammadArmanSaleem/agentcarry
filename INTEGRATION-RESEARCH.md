@@ -1,8 +1,8 @@
-# First-pair integration feasibility
+# Coding-agent integration feasibility
 
 Status: official documentation reviewed 2026-10-25; no live client verified.
 
-Candidate first pair: local Claude Code and local Codex CLI. This is a proposed testing order; actual supported versions will be recorded after execution. IDE/cloud variants must be checked separately.
+First handoff pair: local Codex CLI and Gemini CLI. Next: Codex with Antigravity IDE/App, followed by the reverse direction. This testing order reflects available clients; it is not a compatibility claim. Claude Code remains a later target. Record exact Antigravity product (IDE, App or CLI); do not substitute one for another. Actual supported versions require execution evidence.
 
 | Surface | Documented capability | AgentCarry implication |
 |---|---|---|
@@ -40,3 +40,25 @@ No minimum client version is inferred from a changing documentation page. Rechec
 
 Blocked here by absent client binaries/authenticated test environments. No instructions in this report authorize using user subscriptions or installing global hooks.
 
+
+## Gemini CLI
+
+Official docs describe project GEMINI.md context and /memory show for inspecting loaded instructions. MCP uses mcpServers in .gemini/settings.json for project scope: command/args for stdio and httpUrl for Streamable HTTP. These fields are not automatically portable to Antigravity.
+
+Hooks are configured in settings.json. Candidate capture points: SessionStart, AfterTool, AfterAgent, PreCompress and SessionEnd. An AfterAgent event is a loop boundary, not proof a substantive task is complete. Hook stdout must be valid JSON; logs belong on stderr. Validate Windows executable paths and quoting with the installed client before writing config.
+
+Sources: [context](https://geminicli.com/docs/cli/gemini-md/), [MCP](https://geminicli.com/docs/tools/mcp-server/), [hooks](https://geminicli.com/docs/hooks/). Reviewed 2026-10-25; no installed Gemini CLI tested.
+
+## Antigravity: separate adapter and surface identity
+
+Current official docs describe workspace MCP at .agents/mcp_config.json and global config at ~/.gemini/config/mcp_config.json. IDE also exposes Manage MCP Servers / View raw config. Local servers use command/args; remote servers use serverUrl for Streamable HTTP. The documented CLI rejects Gemini's httpUrl field. Use the active product's own config UI to confirm the path rather than overwrite an older installation's settings.
+
+Workspace hooks use .agents/hooks.json; candidate events are SessionStart, PostToolUse and Stop. PostInvocation is a model-call boundary, not a task completion event. Hook format differs from Gemini CLI; no event-name renaming alone is sufficient. Rules docs describe AGENTS.md/GEMINI.md and .agents/rules. Preserve existing instructions and validate loading in a real session.
+
+Sources: [MCP](https://antigravity.google/docs/mcp), [hooks](https://antigravity.google/docs/hooks?tab=ide), [rules](https://antigravity.google/docs/rules). Reviewed 2026-10-25; no IDE, App or CLI tested. No version minimum inferred.
+
+## Immediate manual baseline
+
+See [MANUAL-HANDOFF.md](MANUAL-HANDOFF.md) for a file-based handoff usable before AgentCarry tools exist. This tests human/agent continuation behavior only; it does not satisfy automatic capture or MCP integration acceptance. No placeholder MCP endpoint or nonexistent server command is provided.
+
+Planned execution order: Codex -> Gemini CLI -> Codex, then Codex -> Antigravity (identify exact surface) -> Codex. Test other pairs later. None of these client binaries is installed in this environment. Actual results must be recorded separately from documentation findings.

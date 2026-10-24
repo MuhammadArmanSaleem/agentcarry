@@ -89,3 +89,11 @@ Reason: Ten local spike tests passed; SQLite recovered and accepted writes after
 Consequences: Avoid hand-building a recovery protocol unless further evidence justifies it. FTS5 remains a candidate after only a two-row smoke test. Spike is JavaScript, not typechecked TypeScript production code.
 Evidence: spikes/phase1/storage.test.mjs and spikes/phase1/README.md. No real-agent, power-loss or Windows proof; no production acceptance case completed.
 
+
+## D012 — Prioritize Codex, Gemini CLI and Antigravity
+Date: 2026-10-25. Status: accepted testing priority; adapters remain unimplemented.
+Decision: First validate Codex CLI <-> Gemini CLI; next Codex <-> Antigravity IDE/App, recording the exact installed surface. Keep Antigravity CLI separate and retain Claude Code as a later compatibility target.
+Reason: Align the initial validation with available development tools.
+Alternatives: Require Claude Code as the first receiving client.
+Consequences: Different Google-client configuration and hooks require independent adapters; no subscription is needed solely to test Claude in the first milestone.
+Evidence: Official Gemini/Antigravity documents reviewed in INTEGRATION-RESEARCH.md. No real-client run; optional manual baseline in MANUAL-HANDOFF.md.

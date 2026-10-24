@@ -23,7 +23,7 @@ Verify Windows early; Linux/macOS support need separate evidence. Hosted clients
 
 Client A records a decision, failed approach, pending task, evidence and code revision. Client B starts without the conversation, recovers those facts and checks current code. Repeat after a branch change and after an interrupted session. Report missing facts and duplicate work.
 
-First pair: pending technical spike. Claude Code and Codex are candidates, not an accepted or verified selection.
+First validation pair: Codex CLI and Gemini CLI. Next validation surface: Antigravity IDE/App (identify exact installed product); Antigravity CLI is a separate case. Claude Code remains a later target. This is implementation/test priority, not verified support.
 
 ## Capture level and limits
 
@@ -33,3 +33,7 @@ Record manual, instruction-assisted, or hook-assisted separately from tool conne
 
 Official documentation reviewed for local Claude Code and local Codex on 2026-10-25: see [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md). Neither client binary is installed in the spike environment. Matrix remains untested; documented hook availability is not actual AgentCarry capture support.
 
+
+## Google client research
+
+Gemini CLI and Antigravity official MCP/rules/hooks documentation reviewed 2026-10-25. Their settings paths, remote endpoint fields and lifecycle event names differ; see [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md). Neither was run. All compatibility cells remain untested. [MANUAL-HANDOFF.md](MANUAL-HANDOFF.md) is an optional baseline, not an installed adapter.
