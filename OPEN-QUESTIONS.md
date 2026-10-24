@@ -4,8 +4,8 @@ Status: explicit uncertainty register. No row represents an implemented capabili
 
 | Question | Current position | Evidence/decision required before |
 |---|---|---|
-| Runtime and dependency versions | TypeScript proposed; not pinned | P1 installation/packaging spike including Windows |
-| Authoritative persistence | Inspectable files preferred; journaled files versus SQLite still open | P1 crash, concurrent writer and multi-record recovery tests |
+| Runtime and dependency versions | TypeScript proposed; research uses Node 24.22.1 built-ins; production not pinned | P1 installation/packaging spike including Windows |
+| Authoritative persistence | SQLite leading candidate after Linux spike; Windows and product schema/recovery remain open | P1 crash, concurrent writer and multi-record recovery tests |
 | First two clients | Claude Code/Codex candidates | P1 current official capability check and executable test access |
 | Capture automation | Manual/instruction/hook levels defined in CONTRACTS | P3 actual lifecycle observations; no time-loss guarantee otherwise |
 | Package verification cadence | Per-package policy required; intervals not chosen | First published package |
@@ -18,3 +18,4 @@ Status: explicit uncertainty register. No row represents an implemented capabili
 | License/redistribution | No license selected; sources retain own terms | Before distribution/reuse of third-party content |
 
 Resolve technical choices using evidence and record in DECISIONS.md. Ask the developer when a choice changes product scope, cost commitment or privacy expectations; routine technical choices within approved requirements do not need repeated approval.
+

@@ -1,13 +1,13 @@
 # Phased backlog
 
-All runtime work is pending. Check boxes indicate completed deliverables, not approval.
+An isolated Phase 1 research harness exists; product runtime and integrations remain pending. Check boxes indicate completed deliverables, not approval.
 
 ## Phase 0 — Foundation
 
 - [x] Document product requirements, boundaries, architecture direction and decisions.
 - [x] Record competitor evidence and unresolved integration claims.
 - [x] Define phased gates and initial compatibility matrix.
-- [ ] Review and merge the documentation PR.
+- [x] Review and merge the documentation PR (#1).
 
 ## Phase 1 — Technical spike and contracts
 
@@ -63,3 +63,8 @@ Gate: hosted operating costs bounded; no cross-project/account leakage; local re
 - [ ] Document install/uninstall, backups, migration and data locations.
 - [ ] Verify package integrity and unsafe-path handling.
 - [ ] Release only after reproducible setup and explicit limitations.
+
+## Phase 1 partial evidence
+
+See [spikes/phase1/README.md](spikes/phase1/README.md), [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md), and [SCHEMA-DRAFT.md](SCHEMA-DRAFT.md). Ten Linux research tests passed. Remaining P1 boxes intentionally stay open: Windows, live clients, executable record validators, migrations and representative retrieval evaluation are not verified.
+

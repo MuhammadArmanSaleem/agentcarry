@@ -1,0 +1,5 @@
+node_modules/
+.agentcarry/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

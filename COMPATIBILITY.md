@@ -28,3 +28,8 @@ First pair: pending technical spike. Claude Code and Codex are candidates, not a
 ## Capture level and limits
 
 Record manual, instruction-assisted, or hook-assisted separately from tool connectivity (CONTRACTS C03). Startup instructions do not prove background checkpointing. Record supported triggers, failed-write visibility, restart and abrupt-termination results, and last acknowledged checkpoint. Use VALIDATION V01/V11/V12/V16. Separate workspace/branch handoff and remote code-transfer prerequisites.
+
+## Initial feasibility research
+
+Official documentation reviewed for local Claude Code and local Codex on 2026-10-25: see [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md). Neither client binary is installed in the spike environment. Matrix remains untested; documented hook availability is not actual AgentCarry capture support.
+

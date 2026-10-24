@@ -2,7 +2,7 @@
 
 Carry knowledge, skills, and project progress between coding agents.
 
-**Status: documentation foundation only.** No CLI, MCP server, website, cloud service, or agent integration is implemented or verified yet. Command and tool names in these documents are proposed interfaces.
+**Status: planning plus an isolated Phase 1 research harness.** No CLI, MCP server, website, cloud service, or agent integration is implemented or verified yet. Command and tool names in these documents are proposed interfaces.
 
 ## Purpose
 
@@ -26,7 +26,7 @@ Targets: Claude Code, Codex, Cursor, Gemini CLI, Antigravity, and Manus. These a
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-There are no installation or execution commands yet. Do not install similarly named packages assuming they belong to this repository.
+There are no product installation or execution commands yet. The isolated research tests run with Node 24.22.1 using npm run test:spike; see [spikes/phase1/README.md](spikes/phase1/README.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 
@@ -35,3 +35,8 @@ There are no installation or execution commands yet. Do not install similarly na
 - [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md): unresolved choices and required evidence.
 
 The design explicitly tracks uncertainty; it does not claim assumption-free implementation or universal automatic capture.
+
+## Phase 1 evidence
+
+[Integration research](INTEGRATION-RESEARCH.md), [schema draft](SCHEMA-DRAFT.md), and [storage experiments](spikes/phase1/README.md) distinguish measured local behavior from pending product requirements. No client integration is supported yet.
+

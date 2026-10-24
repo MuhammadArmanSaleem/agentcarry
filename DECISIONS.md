@@ -80,3 +80,12 @@ Decision: Compare journaled files with SQLite authoritative storage plus readabl
 Reason: Atomic single-file replacement does not establish multi-record recovery or crash durability.
 Consequence: No file-lock implementation selected before P1 failure/concurrency tests.
 Evidence: Design gap identified; spike pending.
+
+## D011 — SQLite is the leading persistence candidate after initial spike
+Date: 2026-10-25. Status: proposed implementation direction; P1 incomplete.
+Decision: Prefer SQLite transactional storage plus readable export for P2, subject to Windows, schema/migration/deletion gates. Built-in node:sqlite was exercised on Node 24.22.1 without external dependencies; production runtime is not locked.
+Alternatives: Append-only file journal with cross-process lock and recovery tooling.
+Reason: Ten local spike tests passed; SQLite recovered and accepted writes after process termination. The deliberately minimal journal required lock recovery.
+Consequences: Avoid hand-building a recovery protocol unless further evidence justifies it. FTS5 remains a candidate after only a two-row smoke test. Spike is JavaScript, not typechecked TypeScript production code.
+Evidence: spikes/phase1/storage.test.mjs and spikes/phase1/README.md. No real-agent, power-loss or Windows proof; no production acceptance case completed.
+
