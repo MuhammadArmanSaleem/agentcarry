@@ -65,3 +65,18 @@ Evidence: Foundation documentation prepared; runtime remains absent.
 ## Template
 
 ID/title; date; status (proposed/accepted/implemented/superseded); decision; rationale; alternatives; consequences; verification evidence; replacement reference if superseded.
+
+## D009 — Explicit behavioral contracts and phased validation
+Date: 2026-10-25. Status: accepted foundation revision; implementation pending.
+Decision: CONTRACTS.md defines identity/scoping, checkpoint lineage/conflicts, capture acknowledgement and capability limits, evidence fields, package maintenance, skill promotion, deletion and recovery. VALIDATION.md maps tests to separate phase gates; OPEN-QUESTIONS.md preserves unresolved choices.
+Reason: Avoid latest-checkpoint ambiguity, unsupported automation claims and circular phase gates.
+Alternatives: Leave behavior to each adapter or infer latest-wins.
+Consequences: More precise implementation obligations; no invented product guarantees. Capture defaults and quota periods still require resolution.
+Evidence: Documentation review only; no runtime results.
+
+## D010 — Persistence preference remains evidence-gated
+Date: 2026-10-25. Status: proposed; refines D007 persistence preference.
+Decision: Compare journaled files with SQLite authoritative storage plus readable export. Preserve portability and inspectability regardless of implementation.
+Reason: Atomic single-file replacement does not establish multi-record recovery or crash durability.
+Consequence: No file-lock implementation selected before P1 failure/concurrency tests.
+Evidence: Design gap identified; spike pending.

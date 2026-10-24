@@ -27,3 +27,11 @@ Targets: Claude Code, Codex, Cursor, Gemini CLI, Antigravity, and Manus. These a
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
 There are no installation or execution commands yet. Do not install similarly named packages assuming they belong to this repository.
+
+## Build contracts
+
+- [CONTRACTS.md](CONTRACTS.md): precise handoff, capture, evidence, maintenance, privacy and recovery behavior.
+- [VALIDATION.md](VALIDATION.md): reproducible acceptance scenarios and phase gates.
+- [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md): unresolved choices and required evidence.
+
+The design explicitly tracks uncertainty; it does not claim assumption-free implementation or universal automatic capture.

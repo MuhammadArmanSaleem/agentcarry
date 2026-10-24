@@ -14,7 +14,7 @@ All runtime work is pending. Check boxes indicate completed deliverables, not ap
 - [ ] Verify official client capabilities and select first two executable test integrations.
 - [ ] Validate TypeScript runtime/dependency options, including Windows setup.
 - [ ] Finalize schema versioning, IDs, evidence levels and state transitions.
-- [ ] Prototype atomic writes, cross-process locks, optimistic revision conflicts and recovery.
+- [ ] Compare journaled files and SQLite plus export for atomic writes, cross-process conflicts, multi-record recovery and schema migration.
 - [ ] Choose a minimal full-text index after a representative fixture.
 - [ ] Record results and lock implemented decisions.
 Gate: local persistence survives interruption/conflicts; dependency choices justified; no unsupported compatibility promises.
@@ -25,18 +25,20 @@ Gate: local persistence survives interruption/conflicts; dependency choices just
 - [ ] Implement CLI init/status/doctor and local MCP operations.
 - [ ] Add small owner-curated packages with provenance and compatibility metadata.
 - [ ] Implement package pinning and bounded filtered retrieval.
-- [ ] Implement tasks, events, checkpoints and freshness markers.
+- [ ] Implement tasks, events, immutable checkpoint lineage, divergent-tip conflict responses and freshness markers.
+- [ ] Implement exclusions, storage caps, private deletion including derived data, schema migration and validated export/import.
+- [ ] Implement package freshness/withdrawal metadata and truthful offline status.
 - [ ] Verify CLI/files access without MCP, without network or separate provider credentials.
-Gate: end-to-end local journey passes PRD acceptance cases.
+Gate: P2 fixture/CLI checks V02–V10, V14 (local), V17 in VALIDATION.md pass. Actual-agent handoff and skill extraction belong to P3.
 
 ## Phase 3 — Handoff and learning
 
 - [ ] Implement first two adapters with preview, backups and rollback.
-- [ ] Test real sessions and cross-agent handoff, including abrupt interruption.
+- [ ] Test real sessions and cross-agent handoff, including abrupt interruption; document capture level, triggers and last acknowledged persistence.
 - [ ] Add evidence-linked private skill drafts and lifecycle controls.
-- [ ] Add explicit correction, deduplication, retirement, deletion and export/import.
+- [ ] Add skill correction, deduplication, retirement, explicit promotion and deletion propagation.
 - [ ] Add optional budget/local model jobs with data scope and budget limits.
-Gate: useful draft preserves evidence; no automatic public publishing; handoff results documented.
+Gate: V01, V11–V13 and V16 for first pair pass; report remaining capture gaps. Useful drafts preserve provenance; no automatic public publishing.
 
 ## Phase 4 — Remaining targets and evaluation
 

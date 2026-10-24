@@ -41,9 +41,14 @@ Connect and authenticate a supported client, select a project, retrieve guidance
 
 ## Acceptance criteria
 
+These are overall product criteria, not a single early-phase gate. See [VALIDATION.md](VALIDATION.md) for staged tests and [CONTRACTS.md](CONTRACTS.md) for required behavior.
+
 - A setup fixture with existing instructions preserves all unrelated content and provides a reversible change report.
 - Installed local packages, tasks, and checkpoints remain readable and searchable with network disabled and no API key.
 - A labeled retrieval fixture returns expected relevant sections within the top five results and excludes deliberately incompatible versions. Report the sample size and failures.
+- Divergent checkpoints are surfaced as conflicts with explicit selection/reconciliation; no latest-timestamp overwrite.
+- Private deletion removes derived copies/index entries; exclusions and quota handling ship with initial persistence.
+- Automatic capture is labeled manual/instruction-assisted/hook-assisted per adapter; only acknowledged durable checkpoints count as saved.
 - A fresh agent session recovers the goal, one decision, a failed approach, pending work, and exact recorded check status without developer re-explanation.
 - A changed branch/revision or relevant file fingerprint is visibly flagged; code freshness is not inferred from timestamp alone.
 - Missing evidence never becomes a passed check. Agent-reported results remain labeled as such.
@@ -62,3 +67,7 @@ Excluded initially: model training, executing user code in AgentCarry infrastruc
 Automatic hooks vary by agent; retrieval can select wrong guidance; memory may be stale; cheap-model summaries can omit decisions; captured text can contain secrets or hostile instructions. Mitigations must be implemented and tested, not claimed from documentation alone.
 
 Unresolved: exact dependencies/runtime, first two validated clients, cloud provider/auth/quota design, retention defaults, and licensing of distributed third-party content.
+
+## Requirements authority
+
+Accepted product direction and proposed technical choices are distinct. Unknown capabilities and defaults remain in [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md). Do not describe planning text as implementation evidence. Offline AgentCarry operations do not imply an offline coding model. Published knowledge requires source maintenance and withdrawal policy (CONTRACTS C05).

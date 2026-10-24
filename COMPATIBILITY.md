@@ -24,3 +24,7 @@ Verify Windows early; Linux/macOS support need separate evidence. Hosted clients
 Client A records a decision, failed approach, pending task, evidence and code revision. Client B starts without the conversation, recovers those facts and checks current code. Repeat after a branch change and after an interrupted session. Report missing facts and duplicate work.
 
 First pair: pending technical spike. Claude Code and Codex are candidates, not an accepted or verified selection.
+
+## Capture level and limits
+
+Record manual, instruction-assisted, or hook-assisted separately from tool connectivity (CONTRACTS C03). Startup instructions do not prove background checkpointing. Record supported triggers, failed-write visibility, restart and abrupt-termination results, and last acknowledged checkpoint. Use VALIDATION V01/V11/V12/V16. Separate workspace/branch handoff and remote code-transfer prerequisites.
