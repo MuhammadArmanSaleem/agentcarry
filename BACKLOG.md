@@ -78,4 +78,8 @@ See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additio
 
 ## Knowledge retrieval follow-up
 
-[Retrieval results](spikes/phase1/RETRIEVAL-RESULTS.md): 26 fixed synthetic cases passed on Linux; 13/13 answerable source hits in the top five, zero prohibited results. Combined suite: 28 passing tests. Includes metadata filtering, exact package pins, unknown-version responses, explicit project-rule conflicts and source hashes. Fictional technologies and lexical overlap limit generalization; no real package is published. FTS5 remains a candidate. The seven new tests and evaluation await Windows reproduction. Phase 1 remains incomplete.
+[Retrieval results](spikes/phase1/RETRIEVAL-RESULTS.md): 26 fixed synthetic cases passed on Linux; 13/13 answerable source hits in the top five, zero prohibited results. Combined suite: 28 passing tests. Includes metadata filtering, exact package pins, unknown-version responses, explicit project-rule conflicts and source hashes. Fictional technologies and lexical overlap limit generalization; no real package is published. FTS5 remains a candidate. User-provided terminal output at 212a828 reports 28/28 tests and 26/26 retrieval cases passing on Windows x64, Node 24.22.1 / SQLite 3.53.4. Phase 1 remains incomplete.
+
+## Final PR review follow-up
+
+[PR review](spikes/phase1/PR-REVIEW.md) found and fixed backup-destination overwrite and inherited-property retry-token collisions. A parsed-JSON case fingerprint removes LF/CRLF comparison noise while preserving an exact raw-file hash. Added backup/write-race and regression coverage; latest local Linux suite 33/33, retrieval 26/26. Corrections await Windows rerun. Merge readiness applies only to this research PR, not P1 completion or production acceptance.

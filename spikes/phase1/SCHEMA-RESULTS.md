@@ -4,7 +4,7 @@ Research only; SQLite remains proposed and Phase 1 incomplete. This is not the p
 
 ## Reproduce
 
-Run `npm run test:spike` with Node 24.22.1. It now includes the original ten storage tests, eleven normalized-schema tests and seven retrieval tests; this report describes the 21-test storage subset. No package install, account, model key or network call is needed for the tests.
+Run `npm run test:spike` with Node 24.22.1. It now runs 33 tests: twelve original-store, thirteen normalized-store and eight retrieval tests. This report's initial result describes the earlier 21-test storage subset. No package install, account, model key or network call is needed for the tests.
 
 Observed here on 2026-10-26: Linux x64, Node 24.22.1, SQLite 3.53.4; 21 tests passed, zero failed. Synthetic temporary databases are removed after tests. This result applies to this revision's test files and does not certify installed coding clients.
 
@@ -26,7 +26,7 @@ A user-reported manual Gemini CLI to OpenCode handoff inspection identified inac
 
 The fixture omits checkpoints, events, canonical payload hashing, idempotency, UUID/timestamp validation, quotas, workspace path approval, imports and full export. Transition/review rules are experimental, not a finalized public contract. The database connection is an internal trusted harness, not an authorization boundary.
 
-Migration tests cover exceptions and retry, not process death during backup/migration. Backups contain private content and are outside deletion; use a new private backup destination for each attempt. Concurrent writes during backup cause migration rejection when the connection's data_version changes; this guard still needs a targeted race test. Backup permissions, retention and cleanup are not implemented.
+Migration tests cover exceptions and retry, not process death during backup/migration. Backups contain private content and are outside deletion; use a new private backup destination for each attempt. A targeted two-connection test now commits after backup and before migration, verifies rejection without losing that write, then retries successfully. Existing backup destinations (including the source path) now reject before backup. A new destination is reserved exclusively with mode 0600 where supported; callers must own its containing directory and exclusively use the source connection during migration. This does not defend against an attacker replacing files in that directory. Failed backups may leave partial files. Windows ACL handling, backup retention and cleanup remain unimplemented.
 
 Deletion proves logical query removal only. Database free pages, FTS shadow storage, rollback journals/WAL, filesystem snapshots and backups may retain bytes. No secure-erasure or physical power-loss claim is made. The normalized experiment uses SQLite's default journal settings; the original WAL/FULL tests remain separate.
 

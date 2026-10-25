@@ -40,6 +40,15 @@ for (const [name, read, write] of [['sqlite', sqliteRead, sqliteWrite], ['journa
     assert.equal(results.filter(r => r.code === 2).length, 1, JSON.stringify(results));
     assert.equal(read(root).revision, 1);
   });
+  test(name + ': inherited object names are valid independent retry tokens', t => {
+    const root=dir(t);
+    for (const [expected,token] of ['constructor','toString','__proto__'].entries()) {
+      write(root,expected,token,{text:token});
+      assert.equal(read(root).revision,expected+1);
+      assert.equal(write(root,expected,token,{text:token}),null);
+      assert.throws(()=>write(root,expected+1,token,{text:'different'}),/token reuse/);
+    }
+  });
 }
 for (const pause of ['before_commit', 'after_commit']) {
   test('sqlite: killed writer at ' + pause + ' recovers complete bundle and allows next writer', { timeout: 15000 }, async t => {

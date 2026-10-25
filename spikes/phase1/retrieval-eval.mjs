@@ -8,6 +8,8 @@ const read = name => readFileSync(new URL(name,import.meta.url),'utf8');
 export const corpus = JSON.parse(read('./retrieval-fixture.json'));
 const caseText = read('./retrieval-cases.json');
 export const fixture = JSON.parse(caseText);
+// Parsed JSON hash ignores checkout line endings/formatting; raw bytes stay identifiable.
+export const caseFingerprint = text => hash(JSON.stringify(JSON.parse(text)));
 
 export function evaluate() {
   const search = createRetriever(corpus);
@@ -44,7 +46,7 @@ export function evaluate() {
   const sqlite = db.prepare('SELECT sqlite_version() version').get().version; db.close();
   const times = measurements.map(m=>m.duration_ms).sort((a,b)=>a-b);
   return {fixture_version:fixture.fixture_version,corpus_version:corpus.corpus_version,
-    corpus_hash:hash(JSON.stringify(corpus)),cases_hash:hash(caseText),
+    corpus_hash:hash(JSON.stringify(corpus)),cases_hash:caseFingerprint(caseText),cases_file_hash:hash(caseText),
     environment:{platform:process.platform,arch:process.arch,node:process.version,sqlite},
     cases:fixture.cases.length,passed:fixture.cases.length-failures.length,categories,
     answerable,top_five_hits:hits,prohibited_results:prohibited,failures,

@@ -4,7 +4,7 @@ import { mkdirSync, openSync, closeSync, writeSync, fsyncSync, readFileSync, exi
 import { join } from 'node:path';
 
 function next(state, expected, token, payload) {
-  if (state.tokens[token]) {
+  if (Object.hasOwn(state.tokens, token)) {
     if (state.tokens[token].payload !== JSON.stringify(payload)) throw Error('token reuse');
     return null;
   }

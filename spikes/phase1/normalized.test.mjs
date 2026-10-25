@@ -42,6 +42,26 @@ test('unsupported newer schema is rejected without changing database bytes', asy
   await assert.rejects(migrate(db,join(root,'unused.sqlite')),/unsupported/);
   assert.deepEqual(readFileSync(path),before);
 });
+test('migration never overwrites an existing backup or its own source database', async t => {
+  const {db,root,path}=fixture(t); seed(db);
+  const destination=join(root,'keep.sqlite'), prior=open(destination);
+  prior.exec("CREATE TABLE keep(body TEXT); INSERT INTO keep VALUES('preserve this backup');"); prior.close();
+  const before=readFileSync(destination);
+  await assert.rejects(migrate(db,destination),/EEXIST/);
+  assert.deepEqual(readFileSync(destination),before);
+  await assert.rejects(migrate(db,path),/EEXIST/);
+  assert.equal(version(db),1); assert.equal(count(db,'drafts'),1);
+});
+test('a second connection committing after backup aborts migration without losing its write', async t => {
+  const {db,root,path}=fixture(t); seed(db);
+  const other=open(path);
+  try {
+    await assert.rejects(migrate(db,join(root,'snapshot.sqlite'),()=>{},()=>seed(other,'concurrent lesson')),/changed during backup/);
+    assert.equal(version(db),1); assert.equal(count(db,'drafts'),2);
+    await migrate(db,join(root,'retry.sqlite'));
+    assert.equal(version(db),2); assert.equal(count(db,'draft_search'),2);
+  } finally {other.close();}
+});
 test('cross-project evidence references fail at the database boundary', t => {
   const {db} = fixture(t), a = seed(db), b = seed(db);
   assert.throws(() => db.prepare('INSERT INTO evidence VALUES(?,?,?,?,?,?,?)')

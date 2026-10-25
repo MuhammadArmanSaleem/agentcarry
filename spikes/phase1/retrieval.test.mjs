@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { corpus, fixture, evaluate } from './retrieval-eval.mjs';
+import { corpus, fixture, evaluate, caseFingerprint } from './retrieval-eval.mjs';
 import { createRetriever, hash } from './retrieval.mjs';
 
 test('frozen labeled retrieval cases pass with no prohibited results', () => {
@@ -47,4 +47,10 @@ test('malformed review dates are excluded; incompatible pins warn without substi
   assert.equal(createRetriever(changed)({query:'motion',technology:'sample-web',version:'1.0.0'}).results.length,0);
   const result=createRetriever(corpus)({query:'motion',technology:'sample-web',version:'2.0.0',pins:{'web-guide':'1.0.0'}});
   assert.equal(result.results.length,0); assert.ok(result.warnings.includes('pin_incompatible:web-guide@1.0.0'));
+});
+test('case fingerprints ignore checkout line endings but detect changed test meaning', () => {
+  const lf=JSON.stringify(fixture,null,2)+'\n', crlf=lf.replaceAll('\n','\r\n');
+  assert.equal(caseFingerprint(lf),caseFingerprint(crlf));
+  const changed=structuredClone(fixture); changed.cases[0].expected=[];
+  assert.notEqual(caseFingerprint(lf),caseFingerprint(JSON.stringify(changed)));
 });

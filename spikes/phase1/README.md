@@ -41,3 +41,7 @@ Windows/macOS and actual Claude/Codex sessions were not tested. Neither CLI is i
 - Run tests on Windows Node 24.22.1 before claiming platform readiness. Production minimum Node version remains open.
 - Retention/deletion and SQLite WAL remanence need an explicit policy; logical deletion alone is not physical erasure.
 
+
+## Later results and review
+
+The ten-test results above are the original Linux run, not the current suite total. See [schema results](SCHEMA-RESULTS.md), [retrieval results](RETRIEVAL-RESULTS.md) and [PR review](PR-REVIEW.md) for subsequent work. User-provided Windows output at 212a828 reports 28/28 tests and 26/26 retrieval cases passing. Latest review corrections pass 33/33 tests locally on Linux and await Windows rerun. SQLite/FTS5 remain proposed and P1 incomplete.

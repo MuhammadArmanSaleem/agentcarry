@@ -1,6 +1,7 @@
 // Isolated feasibility experiment. Not a product API or import format.
 import { DatabaseSync, backup } from 'node:sqlite';
 import { randomUUID } from 'node:crypto';
+import { openSync, closeSync } from 'node:fs';
 
 const v1 = `
 CREATE TABLE projects(id TEXT PRIMARY KEY) STRICT;
@@ -49,12 +50,17 @@ export function initialize(db) {
 
 // Version 2 adds a rebuildable derived search index. Backup remains private.
 // data_version detects another connection committing while the backup is made.
-export async function migrate(db, backupPath, inject = () => {}) {
+export async function migrate(db, backupPath, inject = () => {}, afterBackup = () => {}) {
   const version = db.prepare('PRAGMA user_version').get().user_version;
   if (version === 2) return { migrated: false };
   if (version !== 1) throw Error('unsupported schema version');
   const observed = db.prepare('PRAGMA data_version').get().data_version;
+  // Reserve a new destination; never overwrite a prior backup or alias of the source.
+  // Caller owns the containing directory. Failed attempts retain their file for inspection.
+  const reserved = openSync(backupPath, 'wx', 0o600);
+  closeSync(reserved);
   await backup(db, backupPath);
+  afterBackup();
   transaction(db, () => {
     if (db.prepare('PRAGMA user_version').get().user_version !== 1 ||
         db.prepare('PRAGMA data_version').get().data_version !== observed) {
