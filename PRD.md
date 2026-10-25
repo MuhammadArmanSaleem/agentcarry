@@ -58,7 +58,7 @@ These are overall product criteria, not a single early-phase gate. See [VALIDATI
 
 ## Scope and exclusions
 
-The first prototype implements local continuity and a small knowledge collection, validated with two agents first. Remaining adapters, website, and optional cloud follow in phases; all six remain targets.
+The first prototype implements local continuity and a small knowledge collection, validated with two agents first. Remaining adapters, website, and optional cloud follow in phases; all seven remain targets.
 
 Excluded initially: model training, executing user code in AgentCarry infrastructure, automatic public skill publishing, community submissions, billing, universal full-transcript ingestion, guaranteed enforcement of subjective principles, and guaranteed identical behavior across clients.
 
@@ -74,6 +74,4 @@ Accepted product direction and proposed technical choices are distinct. Unknown 
 
 ## Integration priority
 
-Highest priority: Gemini CLI, OpenCode and Antigravity. First handoff validation pair: Gemini CLI <-> OpenCode; extend to Antigravity next, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus remain later targets. Priority is not verified support.
-
-Affordability requirement: AgentCarry local knowledge and continuity must not require a paid AgentCarry subscription or separate inference call. Client availability, provider authentication, model quotas and model charges are separate from AgentCarry; do not promise unlimited free model access.
+Prioritize Gemini CLI, OpenCode and Antigravity. First validate Gemini CLI <-> OpenCode, then Antigravity with exact surface identified. Other clients remain later targets. Local continuity requires no paid AgentCarry subscription or separate inference call; client/provider quotas and costs remain independent.

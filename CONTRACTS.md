@@ -90,4 +90,4 @@ Local mode runs without hosted account/model calls after required installation a
 
 Optional hosted MCP serves knowledge/private memory after authentication. It cannot inspect local code, intercept all conversations or use external editing software by itself. Setup must identify additional instructions/hooks/tool connections required for each client.
 
-Website and cloud are separate milestones, not prerequisites for the local proof. All six clients remain targets. No adapter is advertised as automatic or supported before its measured capability and versioned tests are recorded.
+Website and cloud are separate milestones, not prerequisites for the local proof. All seven clients remain targets; Gemini CLI, OpenCode and Antigravity take priority. No adapter is advertised as automatic or supported before its measured capability and versioned tests are recorded.
