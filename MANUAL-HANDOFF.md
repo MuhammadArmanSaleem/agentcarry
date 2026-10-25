@@ -1,4 +1,4 @@
-# Manual handoff baseline: Codex, Gemini CLI and Antigravity
+# Manual handoff baseline: Gemini CLI, OpenCode and Antigravity
 
 Status: manual file procedure, not AgentCarry automation or a verified adapter. Use the same local checkout. Remote sessions need explicit code/file access separately.
 
@@ -22,9 +22,9 @@ Use /memory show to inspect loaded context if needed; the handoff is explicitly 
 
 Open the same project using the installed Antigravity surface. Record whether it is IDE, App or CLI and its version. Use the same resume request above, naming the same files. Check that the agent can actually read them. A file link does not transfer the checkout.
 
-## Switch back to Codex
+## Resume in OpenCode or return to Gemini CLI
 
-Ask the departing agent to update the handoff after reading its prior version, then explicitly request the same handoff in Codex. Do not assume an abrupt shutdown saved a final update.
+Open the same checkout in OpenCode and explicitly request AGENTS.md and .agentcarry/manual-handoff.md using the resume request above. When switching back, ask the departing agent to update the handoff after reading its prior version, then explicitly request it in Gemini CLI. Do not assume an abrupt shutdown saved a final update.
 
 ## Record the result
 

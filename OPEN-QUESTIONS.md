@@ -6,7 +6,7 @@ Status: explicit uncertainty register. No row represents an implemented capabili
 |---|---|---|
 | Runtime and dependency versions | TypeScript proposed; research uses Node 24.22.1 built-ins; production not pinned | P1 installation/packaging spike including Windows |
 | Authoritative persistence | SQLite leading candidate after Linux spike; Windows and product schema/recovery remain open | P1 crash, concurrent writer and multi-record recovery tests |
-| First two clients | Codex CLI/Gemini CLI prioritized; Antigravity next; Claude later | Documentation checked; actual client/version execution still needed |
+| First two clients | Gemini CLI/OpenCode prioritized; Antigravity next; other clients later | Documentation checked; actual client/version execution still needed |
 | Capture automation | Manual/instruction/hook levels defined in CONTRACTS | P3 actual lifecycle observations; no time-loss guarantee otherwise |
 | Package verification cadence | Per-package policy required; intervals not chosen | First published package |
 | Quota/retention defaults | Structured only, no transcripts/upload proposed; numerical limits open | First persistent MVP release |

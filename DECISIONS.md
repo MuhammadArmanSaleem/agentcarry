@@ -91,9 +91,16 @@ Evidence: spikes/phase1/storage.test.mjs and spikes/phase1/README.md. No real-ag
 
 
 ## D012 — Prioritize Codex, Gemini CLI and Antigravity
-Date: 2026-10-25. Status: accepted testing priority; adapters remain unimplemented.
+Date: 2026-10-25. Status: superseded by D013; retained as decision history.
 Decision: First validate Codex CLI <-> Gemini CLI; next Codex <-> Antigravity IDE/App, recording the exact installed surface. Keep Antigravity CLI separate and retain Claude Code as a later compatibility target.
 Reason: Align the initial validation with available development tools.
 Alternatives: Require Claude Code as the first receiving client.
 Consequences: Different Google-client configuration and hooks require independent adapters; no subscription is needed solely to test Claude in the first milestone.
 Evidence: Official Gemini/Antigravity documents reviewed in INTEGRATION-RESEARCH.md. No real-client run; optional manual baseline in MANUAL-HANDOFF.md.
+
+## D013 — Prioritize accessible clients: Gemini CLI, OpenCode and Antigravity
+Date: 2026-10-25. Status: accepted product priority; supersedes D012.
+Decision: Gemini CLI, OpenCode and Antigravity are the high-priority integrations. First validate Gemini CLI <-> OpenCode, then both with the selected Antigravity surface. Codex, Claude Code, Cursor and Manus remain later targets.
+Reason: Make the initial product useful with accessible client options and avoid requiring a paid subscription solely for validation.
+Consequences: Add OpenCode as a target; independently implement config/plugin conventions. Keep shared knowledge and memory contracts client-neutral. Do not equate a free client with free/unlimited provider inference.
+Evidence: User priority instruction; OpenCode official docs reviewed in INTEGRATION-RESEARCH.md. No live-client compatibility result.

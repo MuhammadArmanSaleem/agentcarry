@@ -7,6 +7,7 @@ All integrations are **unimplemented and untested** as of this documentation fou
 | Claude Code | Untested | Untested | Untested | Untested | Untested |
 | Codex | Untested | Untested | Untested | Untested | Untested |
 | Cursor | Untested | Untested | Untested | Untested | Untested |
+| OpenCode | Untested | Untested | Untested | Untested | Untested |
 | Gemini CLI | Untested | Untested | Untested | Untested | Untested |
 | Antigravity | Untested | Untested | Untested | Untested | Untested |
 | Manus | Untested | Untested | Untested | Untested | Untested |
@@ -23,7 +24,7 @@ Verify Windows early; Linux/macOS support need separate evidence. Hosted clients
 
 Client A records a decision, failed approach, pending task, evidence and code revision. Client B starts without the conversation, recovers those facts and checks current code. Repeat after a branch change and after an interrupted session. Report missing facts and duplicate work.
 
-First validation pair: Codex CLI and Gemini CLI. Next validation surface: Antigravity IDE/App (identify exact installed product); Antigravity CLI is a separate case. Claude Code remains a later target. This is implementation/test priority, not verified support.
+First validation pair: Gemini CLI and OpenCode. Next: Antigravity, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus are later targets. Priority is not verified support.
 
 ## Capture level and limits
 

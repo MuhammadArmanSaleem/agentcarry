@@ -10,7 +10,7 @@ AgentCarry supplies relevant engineering guidance and preserves project continui
 
 Local operation is the default. Cloud operation is optional. Installed local guidance and memory must remain usable without an AgentCarry account or mandatory paid model call. Fresh documentation and package updates can require network access.
 
-Targets: Claude Code, Codex, Cursor, Gemini CLI, Antigravity, and Manus. These are product targets, not compatibility claims. See [COMPATIBILITY.md](COMPATIBILITY.md).
+Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Claude Code, Cursor and Manus. These are product targets, not compatibility claims. See [COMPATIBILITY.md](COMPATIBILITY.md).
 
 ## Planning documents
 
@@ -40,3 +40,9 @@ The design explicitly tracks uncertainty; it does not claim assumption-free impl
 
 [Integration research](INTEGRATION-RESEARCH.md), [schema draft](SCHEMA-DRAFT.md), and [storage experiments](spikes/phase1/README.md) distinguish measured local behavior from pending product requirements. No client integration is supported yet.
 
+
+## Integration priority
+
+Highest priority: Gemini CLI, OpenCode and Antigravity. First handoff validation pair: Gemini CLI <-> OpenCode; extend to Antigravity next, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus remain later targets. Priority is not verified support.
+
+Affordability requirement: AgentCarry local knowledge and continuity must not require a paid AgentCarry subscription or separate inference call. Client availability, provider authentication, model quotas and model charges are separate from AgentCarry; do not promise unlimited free model access.

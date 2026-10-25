@@ -2,7 +2,7 @@
 
 Status: official documentation reviewed 2026-10-25; no live client verified.
 
-First handoff pair: local Codex CLI and Gemini CLI. Next: Codex with Antigravity IDE/App, followed by the reverse direction. This testing order reflects available clients; it is not a compatibility claim. Claude Code remains a later target. Record exact Antigravity product (IDE, App or CLI); do not substitute one for another. Actual supported versions require execution evidence.
+First handoff pair: Gemini CLI and OpenCode. Next: include Antigravity, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus remain later targets. This is a testing order, not a compatibility claim. Exact supported versions require execution evidence.
 
 | Surface | Documented capability | AgentCarry implication |
 |---|---|---|
@@ -61,4 +61,12 @@ Sources: [MCP](https://antigravity.google/docs/mcp), [hooks](https://antigravity
 
 See [MANUAL-HANDOFF.md](MANUAL-HANDOFF.md) for a file-based handoff usable before AgentCarry tools exist. This tests human/agent continuation behavior only; it does not satisfy automatic capture or MCP integration acceptance. No placeholder MCP endpoint or nonexistent server command is provided.
 
-Planned execution order: Codex -> Gemini CLI -> Codex, then Codex -> Antigravity (identify exact surface) -> Codex. Test other pairs later. None of these client binaries is installed in this environment. Actual results must be recorded separately from documentation findings.
+Planned execution order: Gemini CLI -> OpenCode -> Gemini CLI, then each with Antigravity (identify exact surface). Test other pairs later. None of these client binaries is installed in this environment. Actual results must be recorded separately from documentation findings.
+
+## OpenCode feasibility
+
+Official documentation reviewed 2026-10-25; no OpenCode client was run. Project instructions use AGENTS.md. MCP configuration uses the mcp map in opencode.json/opencode.jsonc: local entries use type=local and a command array; remote entries use type=remote and url. This differs from Gemini's mcpServers and Antigravity's endpoint fields.
+
+Plugins can load from .opencode/plugins/. Candidate events include session.created, session.idle, session.compacted and tool.execute.after. Idle is not proof of task completion; plugin callbacks do not guarantee semantic checkpoint quality or capture after abrupt termination. Prefer scoped explicit tools initially, then verify event capture in the installed version. Do not install a plugin merely to mark documentation research complete.
+
+Sources: [OpenCode rules](https://opencode.ai/docs/rules/), [MCP](https://opencode.ai/docs/mcp-servers/), [plugins](https://opencode.ai/docs/plugins/). Adapter, configuration preservation, provider access, Windows and live handoff remain untested.

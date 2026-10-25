@@ -18,7 +18,7 @@ AgentCarry retrieves and stores guidance, tasks, checkpoints, evidence, and lear
 4. Curated packages cover software development: frontend, backend, databases, architecture, testing, security, CI/CD, design, and agent development. Initial content is maintained by the project owner. Launch coverage is deliberately small.
 5. Engineering principles such as DRY, KISS, SOLID, separation of concerns, and appropriate OOP are applied contextually; principles are not mechanically provable universal rules.
 6. Retrieve compatible guidance with sources, supported versions, and last verification dates. Do not confuse latest guidance with guidance appropriate to an older dependency.
-7. Shared project memory works across target agents: Claude Code, Codex, Cursor, Gemini CLI, Antigravity, Manus. All begin untested.
+7. Shared project memory works across target agents: Gemini CLI, OpenCode, Antigravity, Codex, Claude Code, Cursor, Manus. All begin untested.
 8. Track tasks, dependencies, acceptance criteria, blockers, evidence, decisions, failed attempts, and next actions.
 9. Capture structured session events and checkpoints by default. Full transcripts are optional and require explicit data handling and retention settings.
 10. Extract reusable Markdown skill drafts from work outcomes. Preserve applicability, failures, origin, and verification evidence. Private project drafts do not automatically enter the public collection.
@@ -71,3 +71,9 @@ Unresolved: exact dependencies/runtime, first two validated clients, cloud provi
 ## Requirements authority
 
 Accepted product direction and proposed technical choices are distinct. Unknown capabilities and defaults remain in [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md). Do not describe planning text as implementation evidence. Offline AgentCarry operations do not imply an offline coding model. Published knowledge requires source maintenance and withdrawal policy (CONTRACTS C05).
+
+## Integration priority
+
+Highest priority: Gemini CLI, OpenCode and Antigravity. First handoff validation pair: Gemini CLI <-> OpenCode; extend to Antigravity next, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus remain later targets. Priority is not verified support.
+
+Affordability requirement: AgentCarry local knowledge and continuity must not require a paid AgentCarry subscription or separate inference call. Client availability, provider authentication, model quotas and model charges are separate from AgentCarry; do not promise unlimited free model access.
