@@ -89,8 +89,9 @@ Pin package versions and record hashes. Updates require visible changes and roll
 
 Unit checks cover schemas, version filtering, scoping, state transitions, and evidence labels. Integration checks cover crash-safe storage, concurrency, index rebuild, adapter preservation, and import/export. End-to-end checks cover agent handoff, incompatible knowledge, stale code, interrupted sessions, and draft extraction.
 
-See [BACKLOG.md](BACKLOG.md) and [COMPATIBILITY.md](COMPATIBILITY.md). No tests have run because no runtime exists.
+See [BACKLOG.md](BACKLOG.md) and [COMPATIBILITY.md](COMPATIBILITY.md). The isolated [Phase 1 spike](spikes/phase1/README.md) has local test results; no product runtime or client acceptance tests have run.
 
 ## Normative details
 
 [CONTRACTS.md](CONTRACTS.md) defines scope/identity, immutable checkpoint lineage, capture triggers and acknowledged loss boundaries, evidence provenance, package maintenance, learned-skill lifecycle, deletion, recovery and mode boundaries. [VALIDATION.md](VALIDATION.md) maps these to phase-specific acceptance tests. Any summary in this document must remain consistent with those contracts.
+

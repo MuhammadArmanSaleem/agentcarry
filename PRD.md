@@ -18,7 +18,7 @@ AgentCarry retrieves and stores guidance, tasks, checkpoints, evidence, and lear
 4. Curated packages cover software development: frontend, backend, databases, architecture, testing, security, CI/CD, design, and agent development. Initial content is maintained by the project owner. Launch coverage is deliberately small.
 5. Engineering principles such as DRY, KISS, SOLID, separation of concerns, and appropriate OOP are applied contextually; principles are not mechanically provable universal rules.
 6. Retrieve compatible guidance with sources, supported versions, and last verification dates. Do not confuse latest guidance with guidance appropriate to an older dependency.
-7. Shared project memory works across target agents: Claude Code, Codex, Cursor, Gemini CLI, Antigravity, Manus. All begin untested.
+7. Shared project memory works across target agents: Gemini CLI, OpenCode, Antigravity, Codex, Claude Code, Cursor, Manus. All begin untested.
 8. Track tasks, dependencies, acceptance criteria, blockers, evidence, decisions, failed attempts, and next actions.
 9. Capture structured session events and checkpoints by default. Full transcripts are optional and require explicit data handling and retention settings.
 10. Extract reusable Markdown skill drafts from work outcomes. Preserve applicability, failures, origin, and verification evidence. Private project drafts do not automatically enter the public collection.
@@ -58,7 +58,7 @@ These are overall product criteria, not a single early-phase gate. See [VALIDATI
 
 ## Scope and exclusions
 
-The first prototype implements local continuity and a small knowledge collection, validated with two agents first. Remaining adapters, website, and optional cloud follow in phases; all six remain targets.
+The first prototype implements local continuity and a small knowledge collection, validated with two agents first. Remaining adapters, website, and optional cloud follow in phases; all seven remain targets.
 
 Excluded initially: model training, executing user code in AgentCarry infrastructure, automatic public skill publishing, community submissions, billing, universal full-transcript ingestion, guaranteed enforcement of subjective principles, and guaranteed identical behavior across clients.
 
@@ -71,3 +71,7 @@ Unresolved: exact dependencies/runtime, first two validated clients, cloud provi
 ## Requirements authority
 
 Accepted product direction and proposed technical choices are distinct. Unknown capabilities and defaults remain in [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md). Do not describe planning text as implementation evidence. Offline AgentCarry operations do not imply an offline coding model. Published knowledge requires source maintenance and withdrawal policy (CONTRACTS C05).
+
+## Integration priority
+
+Prioritize Gemini CLI, OpenCode and Antigravity. First validate Gemini CLI <-> OpenCode, then Antigravity with exact surface identified. Other clients remain later targets. Local continuity requires no paid AgentCarry subscription or separate inference call; client/provider quotas and costs remain independent.

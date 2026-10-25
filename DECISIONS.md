@@ -80,3 +80,34 @@ Decision: Compare journaled files with SQLite authoritative storage plus readabl
 Reason: Atomic single-file replacement does not establish multi-record recovery or crash durability.
 Consequence: No file-lock implementation selected before P1 failure/concurrency tests.
 Evidence: Design gap identified; spike pending.
+
+## D011 — SQLite is the leading persistence candidate after initial spike
+Date: 2026-10-25. Status: proposed implementation direction; P1 incomplete.
+Decision: Prefer SQLite transactional storage plus readable export for P2, subject to Windows, schema/migration/deletion gates. Built-in node:sqlite was exercised on Node 24.22.1 without external dependencies; production runtime is not locked.
+Alternatives: Append-only file journal with cross-process lock and recovery tooling.
+Reason: Ten local spike tests passed; SQLite recovered and accepted writes after process termination. The deliberately minimal journal required lock recovery.
+Consequences: Avoid hand-building a recovery protocol unless further evidence justifies it. FTS5 remains a candidate after only a two-row smoke test. Spike is JavaScript, not typechecked TypeScript production code.
+Evidence: spikes/phase1/storage.test.mjs and spikes/phase1/README.md. No real-agent, power-loss or Windows proof; no production acceptance case completed.
+
+
+## D012 — Prioritize Codex, Gemini CLI and Antigravity
+Date: 2026-10-25. Status: superseded by D013; retained as decision history.
+Decision: First validate Codex CLI <-> Gemini CLI; next Codex <-> Antigravity IDE/App, recording the exact installed surface. Keep Antigravity CLI separate and retain Claude Code as a later compatibility target.
+Reason: Align the initial validation with available development tools.
+Alternatives: Require Claude Code as the first receiving client.
+Consequences: Different Google-client configuration and hooks require independent adapters; no subscription is needed solely to test Claude in the first milestone.
+Evidence: Official Gemini/Antigravity documents reviewed in INTEGRATION-RESEARCH.md. No real-client run; optional manual baseline in MANUAL-HANDOFF.md.
+
+## D013 — Prioritize accessible clients: Gemini CLI, OpenCode and Antigravity
+Date: 2026-10-25. Status: accepted product priority; supersedes D012.
+Decision: Gemini CLI, OpenCode and Antigravity are the high-priority integrations. First validate Gemini CLI <-> OpenCode, then both with the selected Antigravity surface. Codex, Claude Code, Cursor and Manus remain later targets.
+Reason: Make the initial product useful with accessible client options and avoid requiring a paid subscription solely for validation.
+Consequences: Add OpenCode as a target; independently implement config/plugin conventions. Keep shared knowledge and memory contracts client-neutral. Do not equate a free client with free/unlimited provider inference.
+Evidence: User priority instruction; OpenCode official docs reviewed in INTEGRATION-RESEARCH.md. No live-client compatibility result.
+
+## D014 — Evaluate FTS5 with deterministic metadata before adding retrieval dependencies
+Date: 2026-10-26. Status: implemented research experiment; production choice remains proposed.
+Decision: Exercise in-memory FTS5/BM25 after lifecycle, review-date, technology-major and package-pin filtering, using a frozen synthetic case set.
+Alternatives: Add embeddings/reranking or external search before measuring a lexical baseline.
+Consequences: No model/provider cost for this experiment; lexical overlap, fictional technology ranges and small corpus limit the evidence. Project-rule conflicts require explicit metadata; semantic contradiction detection is absent. The experiment does not finalize real package compatibility or maintenance policy.
+Evidence: spikes/phase1/RETRIEVAL-RESULTS.md; 26/26 cases and combined 28/28 tests passed on Linux. Separate user-supplied Windows screenshots corroborate the earlier 21 storage tests at 93b3f6d, Node 24.22.1 / SQLite 3.53.4. They supplement D011's earlier Linux-only evidence without establishing power-loss durability or accepting SQLite. P1 remains incomplete.

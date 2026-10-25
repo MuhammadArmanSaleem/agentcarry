@@ -29,8 +29,9 @@ Report what changed, why, commands/results, limitations and next concrete step. 
 
 ## Current state
 
-Documentation foundation only. No runtime, installed adapters or tests yet. First milestone is the technical/storage/compatibility spike in BACKLOG.md.
+Foundation plus isolated spikes/phase1 research tests. No product runtime or installed adapters. Run npm run test:spike for storage-spike changes with Node 24.22.1. Read the spike README for limits; P1 remains incomplete.
 
 ## Contract and uncertainty discipline
 
 Read [CONTRACTS.md](CONTRACTS.md) and applicable [VALIDATION.md](VALIDATION.md) cases before implementation. Consult [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md); resolve unknowns through evidence, not invented capabilities. Never collapse checkpoint tips or elevate reported evidence silently. Storage work includes deletion/derived-data cleanup and recovery from first release. Public support claims require actual client/version evidence.
+

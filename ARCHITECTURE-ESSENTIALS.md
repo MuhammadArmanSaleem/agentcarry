@@ -1,6 +1,6 @@
 # Architecture essentials
 
-Status: proposed system, no runtime implementation.
+Status: proposed product system; isolated storage spike only. See [spikes/phase1/README.md](spikes/phase1/README.md).
 
 - One TypeScript core is the current stack direction; exact runtime and dependencies need a technical spike.
 - CLI, local MCP, optional hosted MCP, and agent adapters call shared operations.
@@ -22,3 +22,4 @@ Status: proposed system, no runtime implementation.
 Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [DECISIONS.md](DECISIONS.md) before material changes.
 
 Read [CONTRACTS.md](CONTRACTS.md) for checkpoint conflict selection, capture limits, maintenance, privacy/deletion and persistence contracts. [VALIDATION.md](VALIDATION.md) contains phase gates; [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md) records unknowns.
+

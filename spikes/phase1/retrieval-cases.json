@@ -1,0 +1,32 @@
+{
+  "fixture_version":"cases-1",
+  "note":"Expected sources frozen before executing the implementation; same-author synthetic regression set, not a held-out benchmark.",
+  "cases":[
+    {"id":"R01","category":"relevant","query":"reduced motion animation","technology":"sample-web","version":"1.2.0","expected":["ui-motion"],"status":"ok"},
+    {"id":"R02","category":"relevant","query":"colour contrast text","technology":"sample-web","version":"1.2.0","expected":["ui-colour"],"status":"ok"},
+    {"id":"R03","category":"relevant","query":"form submission interaction tests","technology":"sample-web","version":"1.2.0","expected":["ui-tests"],"status":"ok"},
+    {"id":"R04","category":"relevant","query":"migration rollback recovery","technology":"sample-db","version":"3.0.0","expected":["db-migrate"],"status":"ok"},
+    {"id":"R05","category":"relevant","query":"bound query parameters","technology":"sample-db","version":"4.9.0","expected":["db-query"],"status":"ok"},
+    {"id":"R06","category":"relevant","query":"query plans index overhead","technology":"sample-db","version":"3.1.0","expected":["db-index"],"status":"ok"},
+    {"id":"R07","category":"relevant","query":"authorization project permission","technology":"sample-api","version":"1.0.0","expected":["api-auth"],"status":"ok"},
+    {"id":"R08","category":"relevant","query":"pipeline deployment tests","technology":"sample-ci","version":"1.0.0","expected":["ci-tests"],"status":"ok"},
+    {"id":"R09","category":"relevant","query":"credentials secrets logs","technology":"sample-ci","version":"1.0.0","expected":["ci-secrets"],"status":"ok"},
+    {"id":"R10","category":"incompatible","query":"motion transitions","technology":"sample-web","version":"1.9.0","expected":["ui-motion"],"forbidden":["ui-new"],"status":"ok"},
+    {"id":"R11","category":"incompatible","query":"motion transitions","technology":"sample-web","version":"2.0.0","expected":["ui-new"],"forbidden":["ui-motion"],"status":"ok"},
+    {"id":"R12","category":"incompatible","query":"migration recovery","technology":"sample-db","version":"5.0.0","expected":[],"status":"no_match"},
+    {"id":"R13","category":"unknown","query":"motion transitions","technology":"sample-web","version":null,"expected":[],"status":"unknown_compatibility"},
+    {"id":"R14","category":"unknown","query":"migration","technology":"sample-db","version":"latest","expected":[],"status":"unknown_compatibility"},
+    {"id":"R15","category":"unknown","query":"query parameters","technology":"sample-db","version":"3.x","expected":[],"status":"unknown_compatibility"},
+    {"id":"R16","category":"withdrawn","query":"legacywidget","technology":"sample-api","version":"1.0.0","expected":[],"status":"no_match"},
+    {"id":"R17","category":"withdrawn","query":"legacywidget","technology":"sample-api","version":"1.0.0","pins":{"retired-guide":"1.0.0"},"expected":[],"warning":"pin_unavailable:retired-guide@1.0.0","status":"no_match"},
+    {"id":"R18","category":"freshness","query":"oldwidget","technology":"sample-api","version":"1.0.0","pins":{"old-guide":"1.0.0"},"expected":[],"warning":"pin_unavailable:old-guide@1.0.0","status":"no_match"},
+    {"id":"R19","category":"conflict","query":"error responses JSON","technology":"sample-api","version":"1.0.0","project_rules":{"error_format":"problem-details"},"expected":["api-errors"],"status":"conflict"},
+    {"id":"R20","category":"conflict","query":"error responses JSON","technology":"sample-api","version":"1.0.0","project_rules":{"error_format":"json"},"expected":["api-errors"],"status":"ok"},
+    {"id":"R21","category":"no_answer","query":"orbital xenobotany","technology":"sample-web","version":"1.0.0","expected":[],"status":"no_match"},
+    {"id":"R22","category":"no_answer","query":"migration recovery","technology":"unknown-tech","version":"1.0.0","expected":[],"status":"no_match"},
+    {"id":"R23","category":"lifecycle","query":"draftwidget","technology":"sample-web","version":"1.0.0","expected":[],"status":"no_match"},
+    {"id":"R24","category":"pinning","query":"motion transitions","technology":"sample-web","version":"2.0.0","pins":{"web-guide":"1.0.0"},"expected":[],"status":"no_match"},
+    {"id":"R25","category":"pinning","query":"motion transitions","technology":"sample-web","version":"1.0.0","pins":{"web-guide":"9.0.0"},"expected":[],"warning":"pin_unavailable:web-guide@9.0.0","status":"no_match"},
+    {"id":"R26","category":"no_answer","query":"!!!","technology":"sample-web","version":"1.0.0","expected":[],"status":"no_match"}
+  ]
+}
