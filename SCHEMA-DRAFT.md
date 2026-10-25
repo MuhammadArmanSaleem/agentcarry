@@ -29,3 +29,7 @@ Code state: branch/commit may be null with reason non_git, unborn, unavailable. 
 
 Canonical hashing, normalized SQLite DDL, authorization identity for human reviews, migration backup/retry rules, deletion dependency graph, timestamp bounds, quota and payload limits, task ID reuse policy and index schema. Finalization requires executable validators and failure fixtures, not only these tables.
 
+
+## Executable partial experiment
+
+[normalized.mjs](spikes/phase1/normalized.mjs) experiments with a subset of task/evidence validation, scoped references and task transitions. [SCHEMA-RESULTS.md](spikes/phase1/SCHEMA-RESULTS.md) records migration/deletion tests and exclusions. This does not finalize the schema or validate the full envelope, checkpoints, imports or authorization.

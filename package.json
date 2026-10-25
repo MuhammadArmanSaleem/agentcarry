@@ -2,6 +2,10 @@
   "name": "agentcarry-research",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.22.1 <25" },
-  "scripts": { "test:spike": "node --test spikes/phase1/storage.test.mjs" }
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "test:spike": "node --test spikes/phase1/storage.test.mjs spikes/phase1/normalized.test.mjs"
+  }
 }

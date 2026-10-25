@@ -71,3 +71,7 @@ Gate: hosted operating costs bounded; no cross-project/account leakage; local re
 
 See [spikes/phase1/README.md](spikes/phase1/README.md), [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md), and [SCHEMA-DRAFT.md](SCHEMA-DRAFT.md). Ten Linux research tests passed. Remaining P1 boxes intentionally stay open: Windows, live clients, executable record validators, migrations and representative retrieval evaluation are not verified.
 
+
+## Normalized storage follow-up
+
+See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additional Linux tests cover scoped foreign keys, reported evidence, task transitions, backup/migration rollback and logical derived-data deletion, including a process race and terminated deletion. Combined suite: 21 passing tests. These are partial P1 experiments, not completed product acceptance gates. A separate user-supplied Windows screenshot shows the original ten tests passing; the new tests remain unverified on Windows. Manual Gemini CLI/OpenCode inspection was reported without a test rerun or recorded client versions. P1 remains incomplete and SQLite remains proposed.
