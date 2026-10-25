@@ -4,7 +4,7 @@ Research only; SQLite remains proposed and Phase 1 incomplete. This is not the p
 
 ## Reproduce
 
-Run `npm run test:spike` with Node 24.22.1. It runs the original ten storage tests and eleven normalized-schema tests. No package install, account, model key or network call is needed for the tests.
+Run `npm run test:spike` with Node 24.22.1. It now includes the original ten storage tests, eleven normalized-schema tests and seven retrieval tests; this report describes the 21-test storage subset. No package install, account, model key or network call is needed for the tests.
 
 Observed here on 2026-10-26: Linux x64, Node 24.22.1, SQLite 3.53.4; 21 tests passed, zero failed. Synthetic temporary databases are removed after tests. This result applies to this revision's test files and does not certify installed coding clients.
 
@@ -18,7 +18,7 @@ Observed here on 2026-10-26: Linux x64, Node 24.22.1, SQLite 3.53.4; 21 tests pa
 
 ## Evidence kept separate
 
-The original ten-test Linux run is documented in [README.md](README.md). A separate user-supplied Windows screenshot showed ten passing original tests; exact Node/SQLite versions were not established from that screenshot. The eleven new tests have not been run on Windows.
+The original ten-test Linux run is documented in [README.md](README.md). A separate user-supplied Windows screenshot showed ten passing original tests; exact Node/SQLite versions were not established from that screenshot. Later user-supplied Windows screenshots show 21/21 storage tests passing at commit 93b3f6d and separately identify Node 24.22.1 / SQLite 3.53.4. These screenshots are separate evidence from local Linux execution; no Windows test was run by this session.
 
 A user-reported manual Gemini CLI to OpenCode handoff inspection identified inaccurate phase/status and file descriptions in a private handoff. That inspection did not rerun tests. It is manual-baseline evidence, not proof of an adapter, MCP integration or automatic capture. Client versions were not recorded.
 
@@ -30,6 +30,6 @@ Migration tests cover exceptions and retry, not process death during backup/migr
 
 Deletion proves logical query removal only. Database free pages, FTS shadow storage, rollback journals/WAL, filesystem snapshots and backups may retain bytes. No secure-erasure or physical power-loss claim is made. The normalized experiment uses SQLite's default journal settings; the original WAL/FULL tests remain separate.
 
-No representative retrieval benchmark, TypeScript packaging result, CLI/MCP or live-client acceptance run is included. Next: close these gates in focused changes, then build the local vertical slice.
+A later [synthetic retrieval experiment](RETRIEVAL-RESULTS.md) adds limited regression evidence. TypeScript packaging, product CLI/MCP and live-client acceptance remain open. Next: close these gates in focused changes, then build the local vertical slice.
 
 Implementation references: [Node SQLite API](https://nodejs.org/docs/latest-v24.x/api/sqlite.html), [SQLite PRAGMA documentation](https://www.sqlite.org/pragma.html), [SQLite foreign keys](https://www.sqlite.org/foreignkeys.html).

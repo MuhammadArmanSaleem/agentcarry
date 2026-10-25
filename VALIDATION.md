@@ -1,6 +1,6 @@
 # Validation plan and traceability
 
-Status: test specifications only; no tests have executed. Synthetic fixtures only.
+Status: product acceptance specifications; no complete product acceptance gate has executed. Partial synthetic research results are recorded below.
 
 | ID | Scenario and pass condition | Earliest gate |
 |---|---|---|
@@ -37,3 +37,7 @@ P4 adds each remaining client only when tested; unsupported capabilities remain 
 P5 proves website/optional cloud boundaries.
 
 Every result records commit, environment, command/procedure, outcome and limitations. Markdown link checks are documentation checks only.
+
+## Partial research results
+
+[Storage/schema experiments](spikes/phase1/SCHEMA-RESULTS.md) and [retrieval experiment](spikes/phase1/RETRIEVAL-RESULTS.md) exercise subsets of V03/V04/V07–V10/V14 using synthetic fixtures. These results do not mark the corresponding product integration cases complete. Latest local Linux suite: 28 tests passed; retrieval: 26 fixed cases passed. Separate user-supplied Windows evidence covers the earlier 21 storage tests. New retrieval tests await Windows reproduction.

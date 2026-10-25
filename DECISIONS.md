@@ -104,3 +104,10 @@ Decision: Gemini CLI, OpenCode and Antigravity are the high-priority integration
 Reason: Make the initial product useful with accessible client options and avoid requiring a paid subscription solely for validation.
 Consequences: Add OpenCode as a target; independently implement config/plugin conventions. Keep shared knowledge and memory contracts client-neutral. Do not equate a free client with free/unlimited provider inference.
 Evidence: User priority instruction; OpenCode official docs reviewed in INTEGRATION-RESEARCH.md. No live-client compatibility result.
+
+## D014 — Evaluate FTS5 with deterministic metadata before adding retrieval dependencies
+Date: 2026-10-26. Status: implemented research experiment; production choice remains proposed.
+Decision: Exercise in-memory FTS5/BM25 after lifecycle, review-date, technology-major and package-pin filtering, using a frozen synthetic case set.
+Alternatives: Add embeddings/reranking or external search before measuring a lexical baseline.
+Consequences: No model/provider cost for this experiment; lexical overlap, fictional technology ranges and small corpus limit the evidence. Project-rule conflicts require explicit metadata; semantic contradiction detection is absent. The experiment does not finalize real package compatibility or maintenance policy.
+Evidence: spikes/phase1/RETRIEVAL-RESULTS.md; 26/26 cases and combined 28/28 tests passed on Linux. Separate user-supplied Windows screenshots corroborate the earlier 21 storage tests at 93b3f6d, Node 24.22.1 / SQLite 3.53.4. They supplement D011's earlier Linux-only evidence without establishing power-loss durability or accepting SQLite. P1 remains incomplete.

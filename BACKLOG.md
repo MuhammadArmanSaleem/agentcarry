@@ -69,9 +69,13 @@ Gate: hosted operating costs bounded; no cross-project/account leakage; local re
 
 ## Phase 1 partial evidence
 
-See [spikes/phase1/README.md](spikes/phase1/README.md), [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md), and [SCHEMA-DRAFT.md](SCHEMA-DRAFT.md). Ten Linux research tests passed. Remaining P1 boxes intentionally stay open: Windows, live clients, executable record validators, migrations and representative retrieval evaluation are not verified.
+See [spikes/phase1/README.md](spikes/phase1/README.md), [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md), and [SCHEMA-DRAFT.md](SCHEMA-DRAFT.md). Storage and retrieval experiments have partial Linux results; see the follow-ups below. Remaining P1 boxes intentionally stay open: complete schema/validators, TypeScript packaging, production migration/deletion behavior and versioned live-client integration are not verified.
 
 
 ## Normalized storage follow-up
 
-See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additional Linux tests cover scoped foreign keys, reported evidence, task transitions, backup/migration rollback and logical derived-data deletion, including a process race and terminated deletion. Combined suite: 21 passing tests. These are partial P1 experiments, not completed product acceptance gates. A separate user-supplied Windows screenshot shows the original ten tests passing; the new tests remain unverified on Windows. Manual Gemini CLI/OpenCode inspection was reported without a test rerun or recorded client versions. P1 remains incomplete and SQLite remains proposed.
+See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additional Linux tests cover scoped foreign keys, reported evidence, task transitions, backup/migration rollback and logical derived-data deletion, including a process race and terminated deletion. Combined suite: 21 passing tests. These are partial P1 experiments, not completed product acceptance gates. Separate user-supplied Windows screenshots show 21/21 tests passing and identify branch spike/phase1-storage-feasibility, commit 93b3f6d, Node 24.22.1 and SQLite 3.53.4. This is user-supplied evidence, distinct from the local Linux execution. Manual Gemini CLI/OpenCode inspection was reported without a test rerun or recorded client versions. P1 remains incomplete and SQLite remains proposed.
+
+## Knowledge retrieval follow-up
+
+[Retrieval results](spikes/phase1/RETRIEVAL-RESULTS.md): 26 fixed synthetic cases passed on Linux; 13/13 answerable source hits in the top five, zero prohibited results. Combined suite: 28 passing tests. Includes metadata filtering, exact package pins, unknown-version responses, explicit project-rule conflicts and source hashes. Fictional technologies and lexical overlap limit generalization; no real package is published. FTS5 remains a candidate. The seven new tests and evaluation await Windows reproduction. Phase 1 remains incomplete.
