@@ -2,7 +2,7 @@
 
 Carry knowledge, skills, and project progress between coding agents.
 
-**Status: planning plus an isolated Phase 1 research harness.** No CLI, MCP server, website, cloud service, or agent integration is implemented or verified yet. Command and tool names in these documents are proposed interfaces.
+**Status: local continuity CLI development preview plus research experiments.** See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for the runnable task/checkpoint flow. No MCP server, website, cloud service or agent adapter is implemented. Full P1/P2 gates remain incomplete.
 
 ## Purpose
 
@@ -26,7 +26,7 @@ Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Cl
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-There are no product installation or execution commands yet. The isolated research tests run with Node 24.22.1 using npm run test:spike; see [spikes/phase1/README.md](spikes/phase1/README.md). Do not install similarly named packages assuming they belong to this repository.
+The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 46 current tests; `npm run test:spike` retains the 33 research tests. No npm install or model key is required. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 

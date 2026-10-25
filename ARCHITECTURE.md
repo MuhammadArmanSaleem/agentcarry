@@ -1,13 +1,13 @@
 # Proposed architecture
 
-Status: architecture proposal, not implemented. Behavioral requirements are defined in [CONTRACTS.md](CONTRACTS.md); unresolved technical choices are tracked in [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md). Date: 2026-10-25.
+Status: architecture proposal with a partial local CLI/core preview; most product components remain unimplemented. Behavioral requirements are defined in [CONTRACTS.md](CONTRACTS.md); unresolved technical choices are tracked in [OPEN-QUESTIONS.md](OPEN-QUESTIONS.md). Date: 2026-10-25.
 
 ## Components
 
 | Component | Responsibility |
 |---|---|
 | Shared core | Validate records, scope projects, resolve versions, retrieve knowledge, manage tasks/checkpoints/drafts |
-| Storage adapters | Local file store first; authenticated cloud store later |
+| Storage adapters | SQLite for the local continuity preview; production acceptance and optional cloud later |
 | Retrieval adapter | Metadata filtering and full-text index, with ranked bounded sections and provenance |
 | CLI | Setup, packages, diagnostics, status, import/export |
 | MCP adapters | Expose core operations locally and optionally over authenticated hosted transport |
@@ -89,9 +89,13 @@ Pin package versions and record hashes. Updates require visible changes and roll
 
 Unit checks cover schemas, version filtering, scoping, state transitions, and evidence labels. Integration checks cover crash-safe storage, concurrency, index rebuild, adapter preservation, and import/export. End-to-end checks cover agent handoff, incompatible knowledge, stale code, interrupted sessions, and draft extraction.
 
-See [BACKLOG.md](BACKLOG.md) and [COMPATIBILITY.md](COMPATIBILITY.md). The isolated [Phase 1 spike](spikes/phase1/README.md) has local test results; no product runtime or client acceptance tests have run.
+See [BACKLOG.md](BACKLOG.md) and [COMPATIBILITY.md](COMPATIBILITY.md). The isolated [Phase 1 spike](spikes/phase1/README.md) has local test results; the local CLI/core preview now has synthetic integration tests, while real-client acceptance remains pending.
 
 ## Normative details
 
 [CONTRACTS.md](CONTRACTS.md) defines scope/identity, immutable checkpoint lineage, capture triggers and acknowledged loss boundaries, evidence provenance, package maintenance, learned-skill lifecycle, deletion, recovery and mode boundaries. [VALIDATION.md](VALIDATION.md) maps these to phase-specific acceptance tests. Any summary in this document must remain consistent with those contracts.
 
+
+## Local prototype boundary
+
+[LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) documents the initial src/local.ts core and src/cli.ts transport. It uses one workspace-bound SQLite database, immutable task-scoped checkpoint lineage, transactional retry receipts, logical quotas, explicit pruning/deletion and readable JSON export. It does not finalize full record schemas, migration/import, learned skills, packages, MCP or adapters. Local TypeScript execution is exercised; static checking/distribution are open. Broad architecture requirements above remain release gates.
