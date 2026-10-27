@@ -2,7 +2,7 @@
 
 Carry knowledge, skills, and project progress between coding agents.
 
-**Status: local continuity CLI development preview plus research experiments.** See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for the runnable task/checkpoint flow and [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) for explicit local web-guidance search. An experimental local MCP server is documented in [MCP-PREVIEW.md](MCP-PREVIEW.md); real clients have not been verified. No website, cloud service or installed agent adapter is implemented. Full P1/P2 gates remain incomplete.
+**Status: local continuity CLI development preview plus research experiments.** See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for the runnable task/checkpoint flow and [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) for explicit local web-guidance search. An experimental local MCP server is documented in [MCP-PREVIEW.md](MCP-PREVIEW.md); a limited user-reported Windows handoff exercised two real clients; broader support is unverified. No website, cloud service or installed agent adapter is implemented. Full P1/P2 gates remain incomplete.
 
 ## Purpose
 
@@ -38,7 +38,7 @@ The design explicitly tracks uncertainty; it does not claim assumption-free impl
 
 ## Phase 1 evidence
 
-[Integration research](INTEGRATION-RESEARCH.md), [schema draft](SCHEMA-DRAFT.md), and [storage experiments](spikes/phase1/README.md) distinguish measured local behavior from pending product requirements. No client integration is supported yet.
+[Integration research](INTEGRATION-RESEARCH.md), [schema draft](SCHEMA-DRAFT.md), and [storage experiments](spikes/phase1/README.md) distinguish measured local behavior from pending product requirements. No client integration is supported as a released product; see MCP-REVIEW.md for limited manual testing.
 
 
 ## Integration priority
