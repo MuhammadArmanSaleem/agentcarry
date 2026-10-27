@@ -2,7 +2,8 @@
 import { DatabaseSync } from 'node:sqlite';
 import { randomUUID, createHash } from 'node:crypto';
 import { existsSync, mkdirSync, lstatSync, realpathSync, openSync, closeSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 type ObjectData = Record<string, any>;
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -29,6 +30,17 @@ export function canonical(value: any): string {
 }
 const digest = (value: any) => createHash('sha256').update(canonical(value)).digest('hex');
 const now = () => new Date().toISOString();
+function rejectTrackedStore(root: string) {
+  const filenames=['local.sqlite','local.sqlite-wal','local.sqlite-shm','local.sqlite-journal'].map(name=>`:(icase,literal).agentcarry/${name}`);
+  const result=spawnSync('git',['-C',root,'-c','core.fsmonitor=false','ls-files','-z','--',...filenames],
+    {encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:3000,maxBuffer:1024*1024});
+  if(result.status===0){if(result.stdout.length)fail('store path is tracked by Git; remove it from the index before initializing');return;}
+  // Non-Git workspaces remain usable; a nearby Git marker means we cannot safely verify.
+  for(let p=root;;p=dirname(p)){
+    if(existsSync(join(p,'.git')))fail('cannot verify Git tracking; initialization stopped');
+    if(dirname(p)===p)break;
+  }
+}
 function paths(root: string) {
   const canonicalRoot=realpathSync(root), directory=join(canonicalRoot,'.agentcarry'), path=join(directory,'local.sqlite');
   if(existsSync(directory) && (lstatSync(directory).isSymbolicLink()||!lstatSync(directory).isDirectory()))fail('unsafe store directory');
@@ -51,6 +63,7 @@ export function initialize(root: string, settings: ObjectData) {
   }
   if(existsSync(p.path))fail('already initialized; use status');
   if(['-wal','-shm','-journal'].some(s=>existsSync(p.path+s)))fail('existing database sidecars require inspection');
+  rejectTrackedStore(p.root);
   writeFileSync(ignore,'*\n',{flag:'wx',mode:0o600});
   const fd=openSync(p.path,'wx',0o600);closeSync(fd);
   const db=new DatabaseSync(p.path);
@@ -159,23 +172,30 @@ export class LocalStore {
       this.db.prepare('UPDATE tasks SET last_activity=? WHERE id=?').run(now(),input.task_id);return record;
     },stage);
   }
-  resume(taskId: string, current: ObjectData, checkpointId?: string) {
+  resume(taskId: string, current: ObjectData, checkpointId?: string, offset=0) {
     return this.transaction(()=>{
+    if(!Number.isSafeInteger(offset)||offset<0 || (checkpointId!==undefined && offset!==0))fail('invalid conflict offset');
     id(taskId);const task=this.record('task',taskId);if(!task)fail('task not found');
     const all=this.db.prepare('SELECT body FROM checkpoints WHERE task_id=? ORDER BY id').all(taskId).map(r=>JSON.parse(r.body as string));
     const parents=new Set(all.flatMap(c=>c.parent_checkpoint_ids));
     const tips=all.filter(c=>!parents.has(c.id));
     let selected;
-    if(checkpointId){id(checkpointId);selected=all.find(c=>c.id===checkpointId);if(!selected)fail('checkpoint outside task scope');}
-    else if(tips.length>1)return {status:'conflict',task,tips};
+    if(checkpointId!==undefined){id(checkpointId);selected=all.find(c=>c.id===checkpointId);if(!selected)fail('checkpoint outside task scope');}
+    else if(tips.length>1)return {status:'conflict',task,
+      tips:tips.slice(offset,offset+20).map(c=>({id:c.id,captured_at:c.captured_at,client:c.client.slice(0,120),
+        task_revision:c.task_revision,next_steps:c.next_steps.slice(0,3).map((step:string)=>step.slice(0,240))})),
+      total_tips:tips.length,next_offset:offset+20<tips.length?offset+20:null,trust:'untrusted_project_context'};
     else selected=tips[0];
     if(!selected)return {status:'empty',task};
     const saved=selected.code_state;
-    let freshness='unknown';
-    if(!saved.commit||!current.commit||saved.dirty_state==='unknown'||current.dirty_state==='unknown')freshness='unknown';
-    else if(saved.branch!==current.branch||saved.commit!==current.commit||saved.dirty_state!==current.dirty_state)freshness='changed';
-    else if(current.commit && current.dirty_state==='clean' && saved.dirty_state==='clean')freshness='matching';
-    return {status:'ok',task,checkpoint:selected,freshness,task_changed:task!.revision!==selected.task_revision,trust:'untrusted_project_context'};
+    let git_freshness='unknown';
+    if(!saved.commit||!current.commit||saved.dirty_state==='unknown'||current.dirty_state==='unknown')git_freshness='unknown';
+    else if(saved.branch!==current.branch||saved.commit!==current.commit||saved.dirty_state!==current.dirty_state)git_freshness='changed';
+    else if(saved.dirty_state==='clean'&&current.dirty_state==='clean')git_freshness='matching';
+    // Git cannot observe ignored files. Without relevant fingerprints, only a detected
+    // change is definitive for the project; a clean Git state is not a full match.
+    const freshness=git_freshness==='changed'?'changed':'unknown';
+    return {status:'ok',task,checkpoint:selected,freshness,git_freshness,task_changed:task!.revision!==selected.task_revision,trust:'untrusted_project_context'};
     });
   }
   export(){return this.transaction(()=>({metadata:JSON.parse(this.db.prepare('SELECT body FROM meta WHERE id=1').get()!.body as string),tasks:this.db.prepare('SELECT body FROM tasks ORDER BY id').all().map(r=>JSON.parse(r.body as string)),

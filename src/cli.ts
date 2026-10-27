@@ -10,7 +10,7 @@ function input() {
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
 }
 function observe(root: string) {
-  const git=(...args: string[])=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','ignore'],timeout:3000,maxBuffer:1024*1024}).trim();
+  const git=(...args: string[])=>execFileSync('git',['-C',root,'-c','core.fsmonitor=false',...args],{encoding:'utf8',stdio:['ignore','pipe','ignore'],timeout:3000,maxBuffer:1024*1024}).trim();
   try {
     git('rev-parse','--show-toplevel');
     let commit=null;try{commit=git('rev-parse','--verify','HEAD');}catch{}
@@ -39,7 +39,7 @@ function run() {
       case 'task':return store.task(input());
       case 'update':return store.update(input());
       case 'checkpoint':return store.checkpoint(input(),observe(root));
-      case 'resume':{const v=input();shape(v,['task_id'],['checkpoint_id']);return store.resume(v.task_id,observe(root),v.checkpoint_id);}
+      case 'resume':{const v=input();shape(v,['task_id'],['checkpoint_id','offset']);return store.resume(v.task_id,observe(root),v.checkpoint_id,v.offset);}
       case 'export':return store.export();
       case 'delete-task':{const v=input();shape(v,['task_id']);return store.deleteTask(v.task_id);}
       case 'configure':return store.configure(input());

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync,rmSync,mkdirSync,writeFileSync,readFileSync,cpSync,symlinkSync } from 'node:fs';
+import { mkdtempSync,rmSync,mkdirSync,writeFileSync,readFileSync,cpSync,symlinkSync,existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -41,7 +41,8 @@ test('divergent tips conflict; explicit selection and reconciliation preserve li
   assert.equal(s.resume(task.id,code,a.id).checkpoint.id,a.id);
   const merged=s.checkpoint({...cpInput(task.id),parent_checkpoint_ids:[a.id,b.id]},code);
   assert.equal(s.resume(task.id,code).checkpoint.id,merged.id);
-  assert.equal(s.resume(task.id,code).freshness,'matching');
+  assert.equal(s.resume(task.id,code).freshness,'unknown');
+  assert.equal(s.resume(task.id,code).git_freshness,'matching');
   assert.equal(s.resume(task.id,{...code,branch:'other'}).freshness,'changed');
   assert.equal(s.resume(task.id,{...code,dirty_state:'dirty'}).freshness,'changed');
   assert.equal(s.resume(task.id,{branch:null,commit:null,dirty_state:'unknown',reason:'unavailable'}).freshness,'unknown');
@@ -51,6 +52,17 @@ test('dirty observations never establish matching and reported checks cannot ele
   assert.throws(()=>s.checkpoint({...input,checks:[{...input.checks[0],origin:'trusted_integration_observed'}]},code),/reported/);
   s.checkpoint(input,{...code,dirty_state:'dirty'});
   assert.equal(s.resume(task.id,{...code,dirty_state:'dirty'}).freshness,'unknown');
+});
+test('many conflicting tips return bounded, paginated summaries with untrusted labeling',t=>{
+  const {s}=fixture(t),task=s.task(taskInput());
+  for(let i=0;i<25;i++)s.checkpoint(cpInput(task.id),code);
+  const first=s.resume(task.id,code),second=s.resume(task.id,code,undefined,first.next_offset);
+  assert.equal(first.status,'conflict');assert.equal(first.tips.length,20);assert.equal(first.total_tips,25);
+  assert.equal(first.trust,'untrusted_project_context');assert.equal(second.tips.length,5);assert.equal(second.next_offset,null);
+  assert.equal(new Set([...first.tips,...second.tips].map(x=>x.id)).size,25);
+  assert.equal(Object.hasOwn(first.tips[0],'failed_attempts'),false);
+  assert.throws(()=>s.resume(task.id,code,undefined,-1),/offset/);
+  assert.throws(()=>s.resume(task.id,code,''),/UUID/);
 });
 test('scope rejects copied stores, symlink escape and foreign task parents',t=>{
   const {s,p}=fixture(t), another=root(t);cpSync(join(p,'.agentcarry'),join(another,'.agentcarry'),{recursive:true});
@@ -101,7 +113,7 @@ test('precommit failure rolls back the task and idempotency receipt together',t=
 });
 test('CLI observes unborn Git state, then clean and dirty code without inventing fingerprints',t=>{
   const p=root(t);const git=(...args)=>{const r=spawnSync('git',args,{cwd:p,encoding:'utf8'});assert.equal(r.status,0,r.stderr);};
-  git('init');initialize(p,settings);
+  git('init');git('config','core.hooksPath',join(p,'disabled-hooks'));git('config','commit.gpgsign','false');initialize(p,settings);
   const task=JSON.parse(run(p,'task',taskInput()).stdout);
   const first=JSON.parse(run(p,'checkpoint',cpInput(task.id)).stdout);
   assert.equal(first.code_state.reason,'unborn');
@@ -109,9 +121,33 @@ test('CLI observes unborn Git state, then clean and dirty code without inventing
   git('-c','user.name=Synthetic Test','-c','user.email=synthetic@example.invalid','commit','-m','fixture');
   const saved=JSON.parse(run(p,'checkpoint',{...cpInput(task.id),parent_checkpoint_ids:[first.id]}).stdout);
   assert.equal(saved.code_state.dirty_state,'clean');
-  assert.equal(JSON.parse(run(p,'resume',{task_id:task.id}).stdout).freshness,'matching');
+  const clean=JSON.parse(run(p,'resume',{task_id:task.id}).stdout);
+  assert.equal(clean.freshness,'unknown');assert.equal(clean.git_freshness,'matching');
   writeFileSync(join(p,'sample.txt'),'changed');
   assert.equal(JSON.parse(run(p,'resume',{task_id:task.id}).stdout).freshness,'changed');
+});
+test('ignored file changes do not claim full project freshness',t=>{
+  const p=root(t);const git=(...args)=>{const r=spawnSync('git',args,{cwd:p,encoding:'utf8'});assert.equal(r.status,0,r.stderr);};
+  git('init');git('config','core.hooksPath',join(p,'disabled-hooks'));git('config','commit.gpgsign','false');writeFileSync(join(p,'.gitignore'),'ignored.txt\n');writeFileSync(join(p,'tracked.txt'),'code');git('add','.gitignore','tracked.txt');
+  git('-c','user.name=Synthetic Test','-c','user.email=synthetic@example.invalid','-c','commit.gpgsign=false','commit','-m','fixture');
+  initialize(p,settings);const task=JSON.parse(run(p,'task',taskInput()).stdout);
+  JSON.parse(run(p,'checkpoint',cpInput(task.id)).stdout);
+  writeFileSync(join(p,'ignored.txt'),'changed outside Git tracking');
+  const resumed=JSON.parse(run(p,'resume',{task_id:task.id}).stdout);
+  assert.equal(resumed.git_freshness,'matching');assert.equal(resumed.freshness,'unknown');
+});
+test('init rejects a tracked but deleted database path before creating private data',t=>{
+  const p=root(t);const git=(...args)=>{const r=spawnSync('git',args,{cwd:p,encoding:'utf8'});assert.equal(r.status,0,r.stderr);};
+  git('init');mkdirSync(join(p,'.agentcarry'));const db=join(p,'.agentcarry','local.sqlite');
+  writeFileSync(db,'synthetic placeholder');git('add','-f','.agentcarry/local.sqlite');rmSync(db);
+  assert.throws(()=>initialize(p,settings),/tracked/);
+  assert.equal(existsSync(db),false);assert.equal(existsSync(join(p,'.agentcarry','.gitignore')),false);
+});
+test('tracked store guard catches different filename casing',t=>{
+  const p=root(t);const git=(...args)=>{const r=spawnSync('git',args,{cwd:p,encoding:'utf8'});assert.equal(r.status,0,r.stderr);};
+  git('init');mkdirSync(join(p,'.AGENTCARRY'));const db=join(p,'.AGENTCARRY','LOCAL.SQLITE');
+  writeFileSync(db,'synthetic placeholder');git('add','-f','.AGENTCARRY/LOCAL.SQLITE');rmSync(db);
+  assert.throws(()=>initialize(p,settings),/tracked/);
 });
 function worker(t,args){
   const child=fork(fileURLToPath(new URL('./local-worker.mjs',import.meta.url)),args,{stdio:['ignore','ignore','pipe','ipc']});
