@@ -83,3 +83,7 @@ See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additio
 ## Final PR review follow-up
 
 [PR review](spikes/phase1/PR-REVIEW.md) found and fixed backup-destination overwrite and inherited-property retry-token collisions. A parsed-JSON case fingerprint removes LF/CRLF comparison noise while preserving an exact raw-file hash. Added backup/write-race and regression coverage; latest local Linux suite 33/33, retrieval 26/26. Corrections await Windows rerun. Merge readiness applies only to this research PR, not P1 completion or production acceptance.
+
+## Local continuity preview (partial P2 work)
+
+[LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) adds checkout-only init/status/doctor, scoped task revisions, immutable checkpoint lineage/resume, retry acknowledgements, explicit quotas/retention, delete/prune and readable export. Seventeen local tests plus 33 research tests pass on Linux (50 total); temporary-folder demo passed. User-provided Windows output reports 46/46 and the demo passing before the review corrections; the checkout commit/runtime versions were not shown in that output. The revised code awaits Windows reproduction. No P1/P2 gate is marked complete: full schema/typecheck/packaging, migration/import, real curated retrieval and MCP/adapters remain pending.

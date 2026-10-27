@@ -7,6 +7,10 @@
   },
   "scripts": {
     "test:spike": "node --test spikes/phase1/storage.test.mjs spikes/phase1/normalized.test.mjs spikes/phase1/retrieval.test.mjs",
-    "eval:retrieval": "node spikes/phase1/retrieval-eval.mjs"
+    "eval:retrieval": "node spikes/phase1/retrieval-eval.mjs",
+    "test:local": "node --test test/local.test.mjs",
+    "demo:local": "node scripts/demo.mjs",
+    "local": "node src/cli.ts",
+    "test": "node --test spikes/phase1/storage.test.mjs spikes/phase1/normalized.test.mjs spikes/phase1/retrieval.test.mjs test/local.test.mjs"
   }
 }

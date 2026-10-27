@@ -29,7 +29,7 @@ Report what changed, why, commands/results, limitations and next concrete step. 
 
 ## Current state
 
-Foundation plus isolated spikes/phase1 research tests. No product runtime or installed adapters. Run npm run test:spike for storage-spike changes with Node 24.22.1. Read the spike README for limits; P1 remains incomplete.
+Local CLI/core development preview in src/, with test/local.test.mjs and scripts/demo.mjs. No installed adapters or MCP transport. Node 24.22.1 runs erasable TypeScript directly; static typechecking/packaging remain pending. Run npm run test:local for core/CLI changes, npm run test:spike for research changes, and npm test when both boundaries change. See LOCAL-PROTOTYPE.md. P1/P2 remain incomplete; use synthetic data until migration/import are implemented.
 
 ## Contract and uncertainty discipline
 

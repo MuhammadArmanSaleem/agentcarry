@@ -1,6 +1,6 @@
 # Architecture essentials
 
-Status: proposed product system; isolated storage spike only. See [spikes/phase1/README.md](spikes/phase1/README.md).
+Status: broader product proposal with a [local continuity CLI preview](LOCAL-PROTOTYPE.md) and isolated research tests. Production acceptance remains pending.
 
 - One TypeScript core is the current stack direction; exact runtime and dependencies need a technical spike.
 - CLI, local MCP, optional hosted MCP, and agent adapters call shared operations.

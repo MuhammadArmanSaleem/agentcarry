@@ -41,3 +41,7 @@ Every result records commit, environment, command/procedure, outcome and limitat
 ## Partial research results
 
 [Storage/schema experiments](spikes/phase1/SCHEMA-RESULTS.md) and [retrieval experiment](spikes/phase1/RETRIEVAL-RESULTS.md) exercise subsets of V03/V04/V07–V10/V14 using synthetic fixtures. These results do not mark the corresponding product integration cases complete. Latest local Linux suite: 28 tests passed; retrieval: 26 fixed cases passed. User-provided Windows output at 212a828 covers 28/28 tests and 26/26 retrieval cases. Latest review fixes pass 33/33 tests locally on Linux and await Windows rerun; see [PR review](spikes/phase1/PR-REVIEW.md).
+
+## Local CLI preview results
+
+Seventeen tests in [test/local.test.mjs](test/local.test.mjs) exercise fresh-process task/checkpoint recovery, V03/V04 races/termination, V05 lineage conflicts, V06 code observations, V07 check labels, V08 removal of dependent copies and quota/retention handling. npm test: 50/50 passed on Linux x64 with Node 24.22.1 / SQLite 3.53.4. The Node temporary-folder demo passed. User-reported Windows output covers the earlier 46-test PR version and demo; the review fixes and actual coding agents await verification. These subsets do not satisfy full P2 or P3 gates. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for boundaries and exclusions.

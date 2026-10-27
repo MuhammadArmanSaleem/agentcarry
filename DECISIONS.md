@@ -111,3 +111,11 @@ Decision: Exercise in-memory FTS5/BM25 after lifecycle, review-date, technology-
 Alternatives: Add embeddings/reranking or external search before measuring a lexical baseline.
 Consequences: No model/provider cost for this experiment; lexical overlap, fictional technology ranges and small corpus limit the evidence. Project-rule conflicts require explicit metadata; semantic contradiction detection is absent. The experiment does not finalize real package compatibility or maintenance policy.
 Evidence: spikes/phase1/RETRIEVAL-RESULTS.md; 26/26 cases and combined 28/28 tests passed on Linux. Separate user-supplied Windows screenshots corroborate the earlier 21 storage tests at 93b3f6d, Node 24.22.1 / SQLite 3.53.4. They supplement D011's earlier Linux-only evidence without establishing power-loss durability or accepting SQLite. P1 remains incomplete.
+
+## D015 — Start an unpublished local CLI continuity preview
+Date: 2026-10-26. Status: implemented prototype choice; production acceptance pending.
+Decision: Use Node 24.22.1 native TypeScript execution and built-in SQLite WAL/FULL behind a shared local core, with CLI transport first. No external runtime dependencies, cloud/model processing or global agent settings. This narrows D007/D011 for the development preview only.
+Reason: Merged storage/retrieval research and user-provided Windows 33-test evidence support trying a usable local flow without accepting the complete production design. Separate CLI tests exercise task/checkpoint persistence and failure behavior.
+Alternatives: Ship MCP and all adapters at once; add a mandatory compiler/runtime dependency before testing the flow.
+Consequences: Unpublished checkout-only preview, requiring explicit init quota/retention. Local storage is bound to a canonical workspace and refuses copied/moved stores. No import/migration means synthetic data only. Static TypeScript checking, full schemas, real knowledge packages, MCP and live-client capture remain open; P1/P2 gates stay incomplete.
+Evidence: initial 46-test Linux run and user-provided Windows 46-test/demo output; the latter did not show checkout commit or runtime versions. After review fixes, npm test 50/50 passed locally on Linux x64, Node 24.22.1 / SQLite 3.53.4; the revised code awaits Windows execution. No real coding agent was run. See LOCAL-PROTOTYPE.md.
