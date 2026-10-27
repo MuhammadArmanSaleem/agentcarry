@@ -27,4 +27,7 @@ The integrity digest covers the entire parsed package, including sources and met
 
 This is a same-author, small, lexically overlapping dataset, authored while implementing the search. It is a regression fixture, not an independent or held-out benchmark. Keyword OR search may return unrelated matches or miss paraphrases; it cannot infer project context or detect semantic conflicts. Top-five on six sections is a weak relevance measure. Broader real-world queries, version-aware metadata, withdrawal checks, project rules and answer grounding remain open. No P2 acceptance gate is completed by these results.
 
-At this revision, `npm test` passes 56/56 on Linux; the six new tests and real-knowledge evaluation have not yet been run on Windows. The user separately reported 50/50 tests and the continuity demo passing on Windows after the PR #3 fixes; that pasted output did not include the checkout commit/runtime versions. Static TypeScript checking, packaging and current-node support remain open.
+At this revision, `npm test` passes 56/56 on Linux; the six new tests and real-knowledge evaluation also passed on Windows at the earlier PR head. The user separately reported 50/50 tests and the continuity demo passing on Windows after the PR #3 fixes; that pasted output did not include the checkout commit/runtime versions. Static TypeScript checking, packaging and current-node support remain open.
+
+
+User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.

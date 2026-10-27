@@ -55,9 +55,10 @@ test('CLI searches bundled draft in a non-Git folder without a store or provider
   const r=spawnSync(process.execPath,[cli,'search','focus keyboard'],{cwd:root,encoding:'utf8'});
   assert.equal(r.status,0,r.stderr);const value=JSON.parse(r.stdout);
   assert.equal(value.package_status,'draft');
-  // The real current date may be after the fixed review deadline.
-  if(value.status==='ok')assert.ok(value.results.some(s=>s.id==='visible-focus'));else assert.equal(value.status,'stale');
+  // The real current date may be before review or after its deadline.
+  if(value.status==='ok')assert.ok(value.results.some(s=>s.id==='visible-focus'));
+  else assert.ok(['stale','review_date_in_future'].includes(value.status));
   const unknown=spawnSync(process.execPath,[cli,'search-json'],{cwd:root,input:JSON.stringify({query:'motion',library:'React'}),encoding:'utf8'});
   assert.equal(unknown.status,0,unknown.stderr);
-  if(value.status==='ok')assert.equal(JSON.parse(unknown.stdout).status,'unknown_compatibility');
+  assert.equal(JSON.parse(unknown.stdout).status,value.status==='ok'?'unknown_compatibility':value.status);
 });

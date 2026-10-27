@@ -126,4 +126,7 @@ Decision: Bundle one small source-linked general web accessibility draft and sea
 Reason: Provide actual useful source-backed guidance while testing the existing local-first baseline without provider accounts or extra inference.
 Alternatives: Treat synthetic corpus as product guidance; auto-download current libraries; require embeddings or hosted service.
 Consequences: No installation/updates, authenticity signature, semantic conflict handling, registry withdrawal knowledge or automatic agent consultation. The draft is not a published package; repository license remains unresolved. Short same-author evaluations are not general quality proof. Source review deadline is a proposed maintenance date, not a guarantee of up-to-date information.
-Evidence: 24/24 labeled cases and 56/56 combined tests passed on Linux x64, Node 24.22.1 / SQLite 3.53.4. Specific W3C/MDN pages were inspected on 2026-10-27; no automated conformance review or Windows execution for this change. See KNOWLEDGE-PREVIEW.md. P1/P2 remain incomplete.
+Evidence: 24/24 labeled cases and 56/56 combined tests passed on Linux x64, Node 24.22.1 / SQLite 3.53.4. Specific W3C/MDN pages were inspected on 2026-10-27; no automated conformance review. See KNOWLEDGE-PREVIEW.md. P1/P2 remain incomplete.
+
+
+User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.
