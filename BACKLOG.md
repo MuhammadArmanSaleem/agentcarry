@@ -87,3 +87,10 @@ See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additio
 ## Local continuity preview (partial P2 work)
 
 [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) adds checkout-only init/status/doctor, scoped task revisions, immutable checkpoint lineage/resume, retry acknowledgements, explicit quotas/retention, delete/prune and readable export. Seventeen local tests plus 33 research tests pass on Linux (50 total); temporary-folder demo passed. User-provided Windows output reports 46/46 and the demo passing before the review corrections; the checkout commit/runtime versions were not shown in that output. The revised code awaits Windows reproduction. No P1/P2 gate is marked complete: full schema/typecheck/packaging, migration/import, real curated retrieval and MCP/adapters remain pending.
+
+## Local knowledge preview (partial P2 work)
+
+[KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) describes one bundled, explicitly queried draft of six owner-authored W3C/MDN-based summaries. FTS search returns source URLs, provenance, digest and review metadata; it excludes expired content and reports unverified library versions or unavailable pins rather than guessing. There is no package installation/registry, conflict detection, MCP or automatic consultation. The 24-case same-author fixture passes 24/24 on Linux; complete test suite 56/56. User-provided Windows terminal output reports 50/50 tests and the continuity demo after PR #3 review; commit/runtime versions were not included. Windows evidence is recorded below. P1/P2 gates remain incomplete.
+
+
+User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.

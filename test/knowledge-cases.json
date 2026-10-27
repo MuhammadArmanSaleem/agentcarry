@@ -1,0 +1,29 @@
+{
+  "version":"web-accessibility-cases-1",
+  "cases":[
+    {"id":"K01","query":"reduce motion animation","expected":"reduced-motion"},
+    {"id":"K02","query":"prefers reduced motion CSS","expected":"reduced-motion"},
+    {"id":"K03","query":"animated transitions movement","expected":"reduced-motion"},
+    {"id":"K04","query":"keyboard focus indicator","expected":"visible-focus"},
+    {"id":"K05","query":"visible focused control outline","expected":"visible-focus"},
+    {"id":"K06","query":"focus visibility interactive states","expected":"visible-focus"},
+    {"id":"K07","query":"label form input","expected":"form-labels"},
+    {"id":"K08","query":"checkbox radio labels","expected":"form-labels"},
+    {"id":"K09","query":"placeholder label replacement","expected":"form-labels"},
+    {"id":"K10","query":"form validation errors correction","expected":"form-errors"},
+    {"id":"K11","query":"dynamic error message assistive technology","expected":"form-errors"},
+    {"id":"K12","query":"identify field correct problem","expected":"form-errors"},
+    {"id":"K13","query":"text contrast 4.5","expected":"text-contrast"},
+    {"id":"K14","query":"background readability contrast","expected":"text-contrast"},
+    {"id":"K15","query":"WCAG large text ratio","expected":"text-contrast"},
+    {"id":"K16","query":"keyboard operation without mouse","expected":"keyboard-operation"},
+    {"id":"K17","query":"path dependent keyboard functionality","expected":"keyboard-operation"},
+    {"id":"K18","query":"navigation activation keyboard","expected":"keyboard-operation"},
+    {"id":"K19","query":"orbital telescope spectroscopy","status":"no_match"},
+    {"id":"K20","query":"!!!","status":"no_match"},
+    {"id":"K21","query":"motion","library":"React","library_version":"19.0.0","status":"unknown_compatibility"},
+    {"id":"K22","query":"motion","pin":"9.0.0","status":"pin_unavailable"},
+    {"id":"K23","query":"motion","as_of":"2027-01-28","status":"stale"},
+    {"id":"K24","query":"motion","as_of":"2026-01-01","status":"review_date_in_future"}
+  ]
+}

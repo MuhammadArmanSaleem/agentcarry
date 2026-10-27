@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "package_id": "web-accessibility",
+  "version": "0.1.0",
+  "status": "draft",
+  "scope": "general-web",
+  "compatibility": "General web guidance; specific library and browser versions are not verified.",
+  "reviewed_at": "2026-10-27",
+  "review_by": "2027-01-27",
+  "review_method": "Manually read linked upstream guidance and compare these summaries; no automated conformance testing.",
+  "redistribution": "Original summaries authored for this repository; repository license remains undecided. Upstream sources retain their own terms.",
+  "sections": [
+    {
+      "id": "reduced-motion",
+      "title": "Reduced motion and animation",
+      "text": "When designing animated transitions, check the user's reduced-motion preference with the CSS prefers-reduced-motion media feature. Provide a calmer alternative for non-essential movement and test that the interface remains usable. Motion preferences do not replace testing with real users.",
+      "sources": ["https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion", "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"]
+    },
+    {
+      "id": "visible-focus",
+      "title": "Visible keyboard focus",
+      "text": "When users navigate with a keyboard, make the currently focused control visually identifiable. Check focus visibility across interactive elements and states; do not remove an outline without providing an effective replacement. This is one part of accessibility, not a complete conformance test.",
+      "sources": ["https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html"]
+    },
+    {
+      "id": "form-labels",
+      "title": "Form control labels",
+      "text": "Give each form input a meaningful label and associate it with the control, for example using the HTML label element. Check text inputs, checkboxes, radio buttons and select menus. A placeholder alone should not be treated as a reliable replacement for a label.",
+      "sources": ["https://www.w3.org/WAI/tutorials/forms/labels/", "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/placeholder"]
+    },
+    {
+      "id": "form-errors",
+      "title": "Form validation and error messages",
+      "text": "When form validation fails, identify the field and explain how the user can correct the problem. Associate an error message with its control where appropriate, and make dynamically inserted feedback available to assistive technology. Test the complete correction flow.",
+      "sources": ["https://www.w3.org/WAI/tutorials/forms/notifications/"]
+    },
+    {
+      "id": "text-contrast",
+      "title": "Text contrast",
+      "text": "Check text and background contrast for readability. WCAG 2.2 criterion 1.4.3 describes a 4.5:1 minimum for ordinary text and 3:1 for large text, with defined exceptions. Consult the source for definitions and exceptions; passing this check alone does not establish accessibility conformance.",
+      "sources": ["https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"]
+    },
+    {
+      "id": "keyboard-operation",
+      "title": "Keyboard operation",
+      "text": "Provide keyboard access to functionality that can be operated without path-dependent movement. Exercise navigation and activation without a mouse, and check that users can complete the same task. Some genuinely path-dependent interactions have exceptions; consult the standard rather than assuming every gesture is equivalent.",
+      "sources": ["https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"]
+    }
+  ]
+}

@@ -119,3 +119,14 @@ Reason: Merged storage/retrieval research and user-provided Windows 33-test evid
 Alternatives: Ship MCP and all adapters at once; add a mandatory compiler/runtime dependency before testing the flow.
 Consequences: Unpublished checkout-only preview, requiring explicit init quota/retention. Local storage is bound to a canonical workspace and refuses copied/moved stores. No import/migration means synthetic data only. Static TypeScript checking, full schemas, real knowledge packages, MCP and live-client capture remain open; P1/P2 gates stay incomplete.
 Evidence: initial 46-test Linux run and user-provided Windows 46-test/demo output; the latter did not show checkout commit or runtime versions. After review fixes, npm test 50/50 passed locally on Linux x64, Node 24.22.1 / SQLite 3.53.4; the revised code awaits Windows execution. No real coding agent was run. See LOCAL-PROTOTYPE.md.
+
+## D016 — Explicit offline lookup for one curated draft
+Date: 2026-10-27. Status: local preview implemented; publication/registry pending.
+Decision: Bundle one small source-linked general web accessibility draft and search it explicitly with in-memory FTS5; show review/expiry, fixed package and section digests, untrusted guidance and unknown registry state. Reject unsupported library-specific compatibility and unavailable pins without substitution.
+Reason: Provide actual useful source-backed guidance while testing the existing local-first baseline without provider accounts or extra inference.
+Alternatives: Treat synthetic corpus as product guidance; auto-download current libraries; require embeddings or hosted service.
+Consequences: No installation/updates, authenticity signature, semantic conflict handling, registry withdrawal knowledge or automatic agent consultation. The draft is not a published package; repository license remains unresolved. Short same-author evaluations are not general quality proof. Source review deadline is a proposed maintenance date, not a guarantee of up-to-date information.
+Evidence: 24/24 labeled cases and 56/56 combined tests passed on Linux x64, Node 24.22.1 / SQLite 3.53.4. Specific W3C/MDN pages were inspected on 2026-10-27; no automated conformance review. See KNOWLEDGE-PREVIEW.md. P1/P2 remain incomplete.
+
+
+User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.

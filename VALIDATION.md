@@ -45,3 +45,10 @@ Every result records commit, environment, command/procedure, outcome and limitat
 ## Local CLI preview results
 
 Seventeen tests in [test/local.test.mjs](test/local.test.mjs) exercise fresh-process task/checkpoint recovery, V03/V04 races/termination, V05 lineage conflicts, V06 code observations, V07 check labels, V08 removal of dependent copies and quota/retention handling. npm test: 50/50 passed on Linux x64 with Node 24.22.1 / SQLite 3.53.4. The Node temporary-folder demo passed. User-reported Windows output covers the earlier 46-test PR version and demo; the review fixes and actual coding agents await verification. These subsets do not satisfy full P2 or P3 gates. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for boundaries and exclusions.
+
+## Local knowledge preview results
+
+[KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) records a 24-case same-author regression against six real, source-linked draft summaries: 18/18 expected sections in top five, 24/24 checks passed on Linux. These cases partly exercise V10/V14 but are not independent and do not complete the product gates. Full suite: 56/56 Linux. The user separately reported 50/50 tests and the local continuity demo on Windows after the prior review; the new knowledge change was subsequently run on Windows as recorded below.
+
+
+User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.
