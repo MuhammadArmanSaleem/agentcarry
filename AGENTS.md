@@ -29,7 +29,7 @@ Report what changed, why, commands/results, limitations and next concrete step. 
 
 ## Current state
 
-Local CLI/core development preview in src/, with test/local.test.mjs and scripts/demo.mjs, plus explicit draft knowledge lookup (KNOWLEDGE-PREVIEW.md). No installed adapters or MCP transport. Node 24.22.1 runs erasable TypeScript directly; static typechecking/packaging remain pending. Run npm run test:local for continuity changes, npm run test:spike for research changes, and npm run test:knowledge plus npm run eval:knowledge for knowledge/retrieval changes. Run npm test for changes crossing these boundaries. See LOCAL-PROTOTYPE.md. P1/P2 remain incomplete; use synthetic data until migration/import are implemented.
+Local CLI/core development preview in src/, with test/local.test.mjs and scripts/demo.mjs, plus explicit draft knowledge lookup (KNOWLEDGE-PREVIEW.md). An experimental local MCP transport exists; no installed adapters or verified clients. Node 24.22.1 runs erasable TypeScript directly; static typechecking/packaging remain pending. Run npm run test:local for continuity changes, npm run test:spike for research changes, and npm run test:knowledge plus npm run eval:knowledge for knowledge/retrieval changes. Run npm run test:mcp for MCP changes and npm test for changes crossing these boundaries. See LOCAL-PROTOTYPE.md. P1/P2 remain incomplete; use synthetic data until migration/import are implemented.
 
 ## Contract and uncertainty discipline
 

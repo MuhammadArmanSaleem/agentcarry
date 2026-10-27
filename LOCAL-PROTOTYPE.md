@@ -1,6 +1,6 @@
 # Local continuity prototype
 
-Development preview, not an installable release. P1 and P2 acceptance gates remain incomplete. The local runtime includes an explicit search of one bundled draft; knowledge installation, MCP and coding-agent adapters follow separately. See [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md). No automatic consultation/capture is implemented.
+Development preview, not an installable release. P1 and P2 acceptance gates remain incomplete. The local runtime includes an explicit search of one bundled draft; knowledge installation and coding-agent adapters follow separately. An experimental local MCP transport is described in [MCP-PREVIEW.md](MCP-PREVIEW.md). See [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md). No automatic consultation/capture is implemented.
 
 ## Try it on Windows
 

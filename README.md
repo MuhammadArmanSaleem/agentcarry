@@ -2,7 +2,7 @@
 
 Carry knowledge, skills, and project progress between coding agents.
 
-**Status: local continuity CLI development preview plus research experiments.** See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for the runnable task/checkpoint flow and [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) for explicit local web-guidance search. No MCP server, website, cloud service or agent adapter is implemented. Full P1/P2 gates remain incomplete.
+**Status: local continuity CLI development preview plus research experiments.** See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md) for the runnable task/checkpoint flow and [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md) for explicit local web-guidance search. An experimental local MCP server is documented in [MCP-PREVIEW.md](MCP-PREVIEW.md); real clients have not been verified. No website, cloud service or installed agent adapter is implemented. Full P1/P2 gates remain incomplete.
 
 ## Purpose
 
@@ -26,7 +26,7 @@ Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Cl
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 56 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; no npm install or model key is required. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
+The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 57 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 
