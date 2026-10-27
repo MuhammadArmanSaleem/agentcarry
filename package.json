@@ -11,6 +11,8 @@
     "test:local": "node --test test/local.test.mjs",
     "demo:local": "node scripts/demo.mjs",
     "local": "node src/cli.ts",
-    "test": "node --test spikes/phase1/storage.test.mjs spikes/phase1/normalized.test.mjs spikes/phase1/retrieval.test.mjs test/local.test.mjs"
+    "test": "node --test spikes/phase1/storage.test.mjs spikes/phase1/normalized.test.mjs spikes/phase1/retrieval.test.mjs test/local.test.mjs test/knowledge.test.mjs",
+    "test:knowledge": "node --test test/knowledge.test.mjs",
+    "eval:knowledge": "node scripts/eval-knowledge.mjs"
   }
 }

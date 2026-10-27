@@ -1,6 +1,6 @@
 # Local continuity prototype
 
-Development preview, not an installable release. P1 and P2 acceptance gates remain incomplete. This PR starts the local runtime; knowledge installation/retrieval, MCP and coding-agent adapters follow separately. No automatic consultation/capture is implemented.
+Development preview, not an installable release. P1 and P2 acceptance gates remain incomplete. The local runtime includes an explicit search of one bundled draft; knowledge installation, MCP and coding-agent adapters follow separately. See [KNOWLEDGE-PREVIEW.md](KNOWLEDGE-PREVIEW.md). No automatic consultation/capture is implemented.
 
 ## Try it on Windows
 
@@ -44,6 +44,6 @@ Shared core: [local.ts](src/local.ts); CLI: [cli.ts](src/cli.ts). Built-in SQLit
 
 Node executes erasable TypeScript directly. Runtime tests exercise this on Node 24.22.1; a static TypeScript compiler/typecheck and distributable packaging are still pending. No external dependency is introduced. Exact production runtime support remains unaccepted.
 
-Seventeen local tests passed on Linux x64 with Node 24.22.1 / SQLite 3.53.4: fresh-process handoff, lineage conflicts/reconciliation, freshness/trust restrictions, copied/symlinked-store rejection, revision/retry handling, quota rollback, deletion/pruning, unsupported schema, injected precommit failure, two-process race and killed-writer recovery. The merged 33 research tests remain separate. User-provided Windows terminal output reports 46/46 tests and the demo passing on the initial PR version; the checkout commit and runtime versions were not shown in that output. The review fixes and four added tests need a fresh Windows run. No Gemini/OpenCode/Antigravity compatibility claim is made.
+Seventeen local tests passed on Linux x64 with Node 24.22.1 / SQLite 3.53.4: fresh-process handoff, lineage conflicts/reconciliation, freshness/trust restrictions, copied/symlinked-store rejection, revision/retry handling, quota rollback, deletion/pruning, unsupported schema, injected precommit failure, two-process race and killed-writer recovery. The merged 33 research tests remain separate. User-provided Windows terminal output reports 46/46 tests and the demo passing on the initial PR version; the checkout commit and runtime versions were not shown in that output. The user subsequently reported 50/50 tests and the demo passing on Windows; the pasted output did not identify the checkout commit or runtime versions. New knowledge changes still need a Windows run. No Gemini/OpenCode/Antigravity compatibility claim is made.
 
 Local filesystem ownership is the trust boundary. Symlink/hardlink checks prevent common accidental escapes, not hostile replacement races by another process with write access to the containing directory. File modes are requested where supported; Windows ACL hardening and physical power-loss durability need separate evidence. No cloud upload, telemetry, model processing or arbitrary command execution service exists. The CLI invokes only fixed Git inspection commands.

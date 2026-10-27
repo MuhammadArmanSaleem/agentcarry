@@ -2,6 +2,7 @@ import { readSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { LocalStore, initialize, shape, fail } from './local.ts';
+import { searchKnowledge } from './knowledge.ts';
 
 function input() {
   const chunks: Buffer[]=[];let total=0;
@@ -20,7 +21,9 @@ function observe(root: string) {
 }
 function run() {
   const [command,...args]=process.argv.slice(2), root=process.cwd();
-  if(command==='help'||!command)return {prototype:true,commands:['init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for task/update/checkpoint/resume/delete-task/configure',capture:'manual'};
+  if(command==='help'||!command)return {prototype:true,commands:['search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for search-json/task/update/checkpoint/resume/delete-task/configure',capture:'manual'};
+  if(command==='search'){if(args.length!==1)fail('use search "query"');return searchKnowledge({query:args[0]});}
+  if(command==='search-json'){if(args.length)fail('use JSON stdin');return searchKnowledge(input());}
   if(command==='token'){if(args.length)fail('unexpected arguments');return {token:randomUUID()};}
   if(command==='init') {
     if(args.length!==5||args[0]!=='--new'||args[1]!=='--max-bytes'||args[3]!=='--retention-days')fail('use init --new --max-bytes N --retention-days N');
