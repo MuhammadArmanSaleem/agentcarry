@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { LocalStore, initialize, shape, fail } from './local.ts';
 import { searchKnowledge } from './knowledge.ts';
 import { previewSetup } from './setup.ts';
+import { applySetup,rollbackSetup,setupStatus,forgetSetup,unlockSetup } from './setup-apply.ts';
 
 function input() {
   const chunks: Buffer[]=[];let total=0;
@@ -22,7 +23,16 @@ function observe(root: string) {
 }
 function run() {
   const [command,...args]=process.argv.slice(2), root=process.cwd();
-  if(command==='help'||!command)return {prototype:true,commands:['setup-preview gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for search-json/task/update/checkpoint/resume/delete-task/configure',capture:'manual'};
+  if(command==='help'||!command)return {prototype:true,commands:['setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock','setup-preview gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for search-json/task/update/checkpoint/resume/delete-task/configure',capture:'manual'};
+  if(['setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock'].includes(command??'')){
+    if(args.length)fail('setup operations use JSON stdin');const v=input();
+    if(command==='setup-apply')return applySetup(root,v);
+    shape(v,['token'],command==='setup-unlock'?['confirm_abandoned']:[]);
+    if(command==='setup-rollback')return rollbackSetup(root,v.token);
+    if(command==='setup-status')return setupStatus(root,v.token);
+    if(command==='setup-forget')return forgetSetup(root,v.token);
+    return unlockSetup(root,v.token,v.confirm_abandoned);
+  }
   if(command==='setup-preview'){if(args.length!==1)fail('use setup-preview gemini|opencode');return previewSetup(root,args[0]);}
   if(command==='search'){if(args.length!==1)fail('use search "query"');return searchKnowledge({query:args[0]});}
   if(command==='search-json'){if(args.length)fail('use JSON stdin');return searchKnowledge(input());}

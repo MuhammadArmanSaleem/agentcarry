@@ -52,3 +52,8 @@ Seventeen tests in [test/local.test.mjs](test/local.test.mjs) exercise fresh-pro
 
 
 User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.
+
+
+## Setup write/recovery preview evidence
+
+[SETUP-APPLY.md](SETUP-APPLY.md) records partial V01 coverage with synthetic configs: exact original-byte restoration, preserving later unrelated values, owned-entry conflict refusal, stale/forged plan rejection, private bounded backups, idempotent retry, scoped forgetting/replay protection and process contention/interruption followed by explicit recovery. Linux suite 80/80 and disposable CLI demo passed. Windows, real-client behavior and full installer preservation/rollback remain unqualified; no product gate is completed.
