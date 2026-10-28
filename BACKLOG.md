@@ -122,5 +122,5 @@ Setup review follow-up: fixed a concurrent abandoned-lock recovery race using an
 
 ## Guided terminal onboarding preview
 
-[SETUP-WIZARD.md](SETUP-WIZARD.md) adds confirmed initialization/client setup and explicit menu-based undo/forget over existing core operations. Linux typecheck, 10 focused tests, 91 full tests, setup demo and a pseudo-terminal install/cancellation smoke passed. Windows wizard validation, connection diagnostics, packaging, automatic capture and full phase gates remain pending. [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) records separate user-provided basic lower-level client setup/rollback/forget and Windows recovery-fix test results.
+[SETUP-WIZARD.md](SETUP-WIZARD.md) adds confirmed initialization/client setup and explicit menu-based undo/forget over existing core operations. Linux typecheck, 10 focused tests, 91 full tests, setup demo and a pseudo-terminal install/cancellation smoke passed. User-reported Windows wizard checks cover cancellation, fresh initialization and both clients' configure/connect/undo/forget. Connection diagnostics, exact version qualification, Windows Ctrl+C/rendering, packaging, automatic capture and full phase gates remain pending. [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) records separate user-provided basic lower-level client setup/rollback/forget and Windows recovery-fix test results.
 
