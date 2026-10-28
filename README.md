@@ -26,7 +26,7 @@ Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Cl
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 62 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
+The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 63 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 
@@ -46,3 +46,7 @@ The design explicitly tracks uncertainty; it does not claim assumption-free impl
 Highest priority: Gemini CLI, OpenCode and Antigravity. First handoff validation pair: Gemini CLI <-> OpenCode; extend to Antigravity next, recording IDE/App/CLI separately. Codex, Claude Code, Cursor and Manus remain later targets. Priority is not verified support.
 
 Affordability requirement: AgentCarry local knowledge and continuity must not require a paid AgentCarry subscription or separate inference call. Client availability, provider authentication, model quotas and model charges are separate from AgentCarry; do not promise unlimited free model access.
+
+## Static checks
+
+Run `npm ci`, then `npm run typecheck` for strict checking of src/**/*.ts, and `npm test` for runtime behavior. See [TYPECHECK.md](TYPECHECK.md) for scope, versions and limitations. No JavaScript is emitted; Node continues to execute the TypeScript source directly.

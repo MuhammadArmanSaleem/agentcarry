@@ -4,7 +4,7 @@ Status: explicit uncertainty register. No row represents an implemented capabili
 
 | Question | Current position | Evidence/decision required before |
 |---|---|---|
-| Runtime and dependency versions | Local preview executes erasable TypeScript with Node 24.22.1 built-ins; static typecheck/packaging and production support open | P1 installation/packaging spike including Windows |
+| Runtime and dependency versions | Local preview executes erasable TypeScript with Node 24.22.1 built-ins; strict static checking added (TYPECHECK.md); packaging and production support open | P1 installation/packaging spike including Windows |
 | Authoritative persistence | SQLite leading candidate; user-provided Windows synthetic results supplement Linux runs; product schema/recovery remain open | P1 crash, concurrent writer and multi-record recovery tests |
 | First two clients | Gemini CLI/OpenCode prioritized; Antigravity next; other clients later | Documentation checked; actual client/version execution still needed |
 | Capture automation | Manual/instruction/hook levels defined in CONTRACTS | P3 actual lifecycle observations; no time-loss guarantee otherwise |
