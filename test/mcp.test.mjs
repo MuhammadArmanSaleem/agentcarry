@@ -95,22 +95,28 @@ test('MCP cancellation notification reaches the running CLI child',async t=>{
  // A fixture beside this test inherits the repo's installed SDK and module type.
  const fixture=mkdtempSync(join(dirname(fileURLToPath(import.meta.url)),'mcp-wire-fixture-'));
  let connection,childPid;
+ const alive=pid=>{try{process.kill(pid,0);return true;}catch(error){if(error.code==='ESRCH')return false;throw error;}};
  t.after(async()=>{
+   // Ask only this controlled fixture to exit. Never terminate an OS PID read
+   // from a file: it could be malformed, stale, or reused after the child exits.
+   writeFileSync(join(root,'stop-child'),'stop');
+   let stopped=true;
+   if(childPid){const deadline=Date.now()+3000;while(alive(childPid)&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));stopped=!alive(childPid);}
    if(connection&&connection.p.exitCode===null){await new Promise(resolve=>{connection.p.once('close',resolve);connection.p.kill();});}
-   if(childPid){try{process.kill(childPid,'SIGKILL');}catch{} const deadline=Date.now()+3000;while(Date.now()<deadline){try{process.kill(childPid,0);}catch{break;}await new Promise(r=>setTimeout(r,20));}}
+   assert.ok(stopped,'fixture did not stop; temporary files left for inspection');
    rmSync(fixture,{recursive:true,force:true});rmSync(root,{recursive:true,force:true});
  });
  for(const name of ['mcp.ts','mcp-process.ts'])copyFileSync(fileURLToPath(new URL('../src/'+name,import.meta.url)),join(fixture,name));
- writeFileSync(join(fixture,'cli.ts'),"import {writeFileSync} from 'node:fs';writeFileSync('child-pid',String(process.pid));setInterval(()=>{},1000);");
+ writeFileSync(join(fixture,'cli.ts'),"import {writeFileSync,renameSync,existsSync} from 'node:fs';writeFileSync('child-pid.tmp',String(process.pid));renameSync('child-pid.tmp','child-pid');setInterval(()=>{if(existsSync('stop-child'))process.exit(0);},20);setTimeout(()=>process.exit(0),20000);");
  connection=client(root,join(fixture,'mcp.ts'));await connection.start();
  connection.p.stdin.write(JSON.stringify({jsonrpc:'2.0',id:1001,method:'tools/call',params:{name:'create_task',arguments:{token:randomUUID(),goal:'Cancellation fixture',acceptance_criteria:['Signal forwarded']}}})+'\n');
  const marker=join(root,'child-pid'),deadline=Date.now()+10000;
  while(!existsSync(marker)&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));
- assert.ok(existsSync(marker),'CLI child did not start');const pid=Number(readFileSync(marker,'utf8'));childPid=pid;
- const alive=()=>{try{process.kill(pid,0);return true;}catch{return false;}};
- assert.ok(alive());
+ assert.ok(existsSync(marker),'CLI child did not start');const raw=readFileSync(marker,'utf8');
+ assert.match(raw,/^[1-9][0-9]*$/,'fixture PID must be a positive integer');const pid=Number(raw);assert.ok(Number.isSafeInteger(pid));childPid=pid;
+ assert.ok(alive(pid));
  connection.p.stdin.write(JSON.stringify({jsonrpc:'2.0',method:'notifications/cancelled',params:{requestId:1001,reason:'Synthetic cancellation test'}})+'\n');
- const stopDeadline=Date.now()+5000;while(alive()&&Date.now()<stopDeadline)await new Promise(r=>setTimeout(r,20));
- assert.equal(alive(),false,'MCP cancellation did not stop the CLI child');
+ const stopDeadline=Date.now()+5000;while(alive(pid)&&Date.now()<stopDeadline)await new Promise(r=>setTimeout(r,20));
+ assert.equal(alive(pid),false,'MCP cancellation did not stop the CLI child');
  const ping=await connection.req('ping',{});assert.ok(ping.result,'server did not remain responsive');
 });

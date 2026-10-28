@@ -32,4 +32,4 @@ A timed-out or cancelled write may already have committed. Retry with the same t
 
 The second review corrected pre-cancelled process spawning and adds direct-child force termination after a 250 ms grace period when a child ignores normal termination. Windows on that correction remains pending. Descendant-process and parent-shutdown cleanup are still unverified. See MCP-REVIEW.md.
 
-Static checking and the corrected SDK cancellation property are documented in [TYPECHECK.md](TYPECHECK.md). The earlier helper tests did not prove MCP request signals reached subprocesses; the new wire-level fixture test verifies that path on Linux. Windows for this change remains pending.
+Static checking and the corrected SDK cancellation property are documented in [TYPECHECK.md](TYPECHECK.md). The earlier helper tests did not prove MCP request signals reached subprocesses; the new wire-level fixture test verifies that path on Linux. The user subsequently reported Windows installation, typecheck and 63/63 tests; the review fixture follow-up in TYPECHECK-REVIEW.md still needs a Windows rerun.

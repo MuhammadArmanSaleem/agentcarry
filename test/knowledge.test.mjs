@@ -42,6 +42,7 @@ test('review deadlines fail closed and literal FTS input cannot run query operat
 });
 test('modified metadata or content fails package integrity before any result',async t=>{
   const root=mkdtempSync(join(tmpdir(),'agentcarry-knowledge-'));t.after(()=>rmSync(root,{recursive:true,force:true}));
+  writeFileSync(join(root,'package.json'),JSON.stringify({type:'module'}));
   mkdirSync(join(root,'src'));mkdirSync(join(root,'knowledge'));
   for(const f of ['knowledge.ts','local.ts'])copyFileSync(fileURLToPath(new URL('../src/'+f,import.meta.url)),join(root,'src',f));
   const source=JSON.parse(readFileSync(new URL('../knowledge/web-accessibility-0.1.0.json',import.meta.url),'utf8'));

@@ -103,4 +103,4 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 
 ## Static TypeScript checking follow-up
 
-[TYPECHECK.md](TYPECHECK.md) adds strict/noEmit checking of the TypeScript runtime, pinned compiler/Node types, and corrects MCP SDK signal access. Linux: typecheck passed, npm test 63/63, audit zero at the recorded run. The new wire-level cancellation test detects the former signal-access bug. Windows reproduction, full typed schemas, CI enforcement and packaging remain open; this does not complete P1/P2/P3 gates.
+[TYPECHECK.md](TYPECHECK.md) adds strict/noEmit checking of the TypeScript runtime, pinned compiler/Node types, and corrects MCP SDK signal access. Linux: typecheck passed, npm test 63/63, audit zero at the recorded run. The new wire-level cancellation test detects the former signal-access bug. User-provided Windows output reports typecheck and 63/63 tests before the review fixture corrections; Windows for those corrections, full typed schemas, CI enforcement and packaging remain open; this does not complete P1/P2/P3 gates.

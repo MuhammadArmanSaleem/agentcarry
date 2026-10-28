@@ -144,9 +144,9 @@ D017 follow-up: the MCP transport now runs CLI subprocesses asynchronously, prop
 
 
 ## D018 — Explicit strict checking for the existing TypeScript runtime
-Date: 2026-10-28. Status: implemented locally; Windows reproduction pending.
+Date: 2026-10-28. Status: implemented with user-reported Windows checks; review fixture follow-up pending Windows.
 Decision: Pin TypeScript 7.0.2 and @types/node 24.19.2 as development dependencies, with strict/noEmit/NodeNext/erasableSyntaxOnly checking for src/**/*.ts. Keep native Node runtime execution and existing JavaScript research/tests.
 Reason: Native stripping does not validate types; compiler checking identified incorrect MCP SDK cancellation wiring (ctx.signal instead of ctx.mcpReq.signal).
 Alternatives: Keep runtime-only checks; introduce a compiled distribution now; silence the SDK error with any or suppressions.
-Consequences: No runtime compiler requirement or new model cost. The native compiler uses platform-specific optional packages; Windows must be tested. Existing explicit any at JSON/storage boundaries remains a limitation, not full schema typing. Packaging/CI remain separate.
-Evidence: Linux clean npm ci, typecheck passed, 63/63 runtime tests, npm audit reported zero vulnerabilities. New cancellation protocol test fails with the old property and passes with the corrected one. See TYPECHECK.md. No Windows or real-client cancellation UI claim for this change.
+Consequences: No runtime compiler requirement or new model cost. The native compiler uses platform-specific optional packages; user-provided Windows installation/typecheck output passed before the review fixture follow-up. Existing explicit any at JSON/storage boundaries remains a limitation, not full schema typing. Packaging/CI remain separate.
+Evidence: Linux clean npm ci, typecheck passed, 63/63 runtime tests, npm audit reported zero vulnerabilities. New cancellation protocol test fails with the old property and passes with the corrected one. See TYPECHECK.md. User-provided Windows branch output subsequently reports installation, typecheck and 63/63 tests before fixture review corrections. No real-client cancellation UI claim for this change.
