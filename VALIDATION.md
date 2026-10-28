@@ -57,3 +57,7 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 ## Setup write/recovery preview evidence
 
 [SETUP-APPLY.md](SETUP-APPLY.md) records partial V01 coverage with synthetic configs: exact original-byte restoration, preserving later unrelated values, owned-entry conflict refusal, stale/forged plan rejection, private bounded backups, idempotent retry, scoped forgetting/replay protection and process contention/interruption followed by explicit recovery. Linux suite 80/80 and disposable CLI demo passed. Windows, real-client behavior and full installer preservation/rollback remain unqualified; no product gate is completed.
+
+
+Setup review follow-up: user-provided Windows output reports typecheck, 80/80 tests with no skips, and the disposable setup demo passing for both clients before the review correction. Concurrent abandoned-lock recovery is now serialized; Linux typecheck, 14/14 focused tests, 81/81 full tests and demo passed after that correction. Windows reproduction of the correction and real-client setup remain pending. See [SETUP-APPLY-REVIEW.md](SETUP-APPLY-REVIEW.md); no gate is completed.
+

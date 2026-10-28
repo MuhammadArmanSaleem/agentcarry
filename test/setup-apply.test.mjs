@@ -103,6 +103,26 @@ test('forget removes operation-scoped orphan temps and retains a replay-blocking
  writeFileSync(temp,'synthetic-pending-cleanup');assert.equal(setupStatus(root,request.token).cleanup_pending,true);assert.equal(setupStatus(root,request.token).backup_contains_config,true);forgetSetup(root,request.token);assert.equal(setupStatus(root,request.token).cleanup_pending,false);
 });
 
+test('concurrent abandoned-lock recovery cannot remove a replacement writer lock',async t=>{
+ const {root,request}=fresh(t,'gemini'),history=join(root,'.agentcarry','setup-history');mkdirSync(history);
+ const exited=spawnSync(process.execPath,['-e',''],{encoding:'utf8'});assert.equal(exited.status,0,exited.stderr);
+ assert.throws(()=>process.kill(exited.pid,0),e=>e.code==='ESRCH');
+ writeFileSync(join(history,'lock'),JSON.stringify({token:request.token,pid:exited.pid}));
+ const module=pathToFileURL(fileURLToPath(new URL('../src/setup-apply.ts',import.meta.url))).href,worker=join(root,'recover.mjs');
+ writeFileSync(worker,`import{unlockSetup}from ${JSON.stringify(module)};import{writeFileSync,existsSync}from'node:fs';unlockSetup(process.cwd(),process.argv[2],true,()=>{writeFileSync('recover-ready','ready');while(!existsSync('recover-go'))Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,10);});`);
+ const child=spawn(process.execPath,[worker,request.token],{cwd:root,stdio:['ignore','ignore','pipe']});let stderr='';child.stderr.on('data',d=>stderr+=d);
+ const done=new Promise(resolve=>child.on('close',code=>resolve(code)));t.after(()=>child.kill('SIGKILL'));
+ const deadline=Date.now()+10000;while(!existsSync(join(root,'recover-ready'))&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));assert.ok(existsSync(join(root,'recover-ready')),stderr);
+ assert.throws(()=>unlockSetup(root,request.token,true),/recovery lock/);
+ assert.throws(()=>applySetup(root,request),/setup lock/);
+ assert.equal(JSON.parse(readFileSync(join(history,'lock'))).pid,exited.pid);
+ writeFileSync(join(root,'recover-go'),'go');assert.equal(await done,0,stderr);
+ assert.equal(existsSync(join(history,'recovery-lock')),false);assert.equal(applySetup(root,request).status,'applied');
+ // A surviving recovery guard is never silently removed after an interruption.
+ writeFileSync(join(history,'recovery-lock'),JSON.stringify({token:request.token,pid:exited.pid}));
+ assert.throws(()=>unlockSetup(root,request.token,true),/recovery lock/);
+});
+
 test('two simultaneous setup writers cannot both apply a stale plan',async t=>{
  const {root,request}=fresh(t,'opencode'),module=pathToFileURL(fileURLToPath(new URL('../src/setup-apply.ts',import.meta.url))).href;
  const worker=join(root,'race.mjs');writeFileSync(worker,`import{applySetup}from ${JSON.stringify(module)};import{writeFileSync,existsSync}from'node:fs';const r=JSON.parse(process.argv[2]);writeFileSync(r.token+'.ready','ready');while(!existsSync('go'))Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,10);try{console.log(JSON.stringify(applySetup(process.cwd(),r)));}catch(e){console.error(e.message);process.exitCode=1;}`);

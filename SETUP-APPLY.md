@@ -1,6 +1,6 @@
 # Explicit setup apply and rollback preview
 
-Development preview for disposable workspaces and synthetic config only. It builds on SETUP-PREVIEW.md with explicit CLI writes; it is not a guided installer or released client adapter. No real client is launched by these operations. Windows, network-filesystem and real-client configuration tests remain pending.
+Development preview for disposable workspaces and synthetic config only. It builds on SETUP-PREVIEW.md with explicit CLI writes; it is not a guided installer or released client adapter. No real client is launched by these operations. User-provided Windows checks cover the original 80-test implementation; the recovery review correction still awaits Windows reproduction. Network-filesystem and real-client configuration tests remain pending.
 
 ## First verification
 
@@ -45,10 +45,15 @@ max_backup_bytes limits retained setup-history bytes with a small metadata reser
 
 AgentCarry serializes its own setup writers with an exclusive lock. It writes and fsyncs a versioned backup record before touching client config, stages replacement files privately, rechecks the current config revision and renames the replacement. Rollback intent is recorded before config removal/restoration, so a retry cannot reinstall a rolled-back operation. This journal is not a general file-store replacement and does not change the core SQLite schema.
 
-A killed process may leave a stale lock. Other writes then fail closed. After inspecting the operation, setup-unlock accepts the token and confirm_abandoned:true only if the recorded positive PID no longer exists. A live/reused PID, malformed lock or unknown state is not force-cleared. Status may be inspected while locked. After unlocking, retry the same apply request or explicitly roll it back. Never assume an error means no change occurred. Malformed recovery files need manual inspection; there is no automatic destructive repair.
+A killed process may leave a stale lock. Other writes then fail closed. After inspecting the operation, setup-unlock accepts the token and confirm_abandoned:true only if the recorded positive PID no longer exists. A live/reused PID, malformed lock or unknown state is not force-cleared. Concurrent unlock requests are serialized by a private recovery-lock, preventing a second recoverer from deleting a newly acquired writer lock. If a recoverer is terminated while holding that guard, the guard remains and further unlock attempts fail closed; inspect it manually rather than deleting a potentially live recovery guard. Automatic recovery of that guard is not implemented. Status may be inspected while locked. After unlocking, retry the same apply request or explicitly roll it back. Never assume an error means no change occurred. Malformed recovery files need manual inspection; there is no automatic destructive repair.
 
 Close clients/editors before applying or undoing setup. The lock coordinates AgentCarry processes only. Revision checks catch observed changes, but cannot provide atomic compare-and-swap against arbitrary external writers or hostile path replacement between inspection and rename. Local filesystem ownership remains the boundary. Rename/permission failures preserve the recovery record; copying over a failed rename is not used as a fallback. Process-termination testing does not establish physical power-loss durability, and directory fsync/remote filesystems are not qualified.
 
 ## Evidence and limits
 
 Linux Node 24.22.1: strict typecheck, 80/80 full tests and the fresh-process setup demo passed. Thirteen apply tests cover both clients, exact restoration, later edits, conflicts, stale/forged plans, budgets, token misuse, tracked/linked history, invalid UTF-8, owned-entry lifetime, scoped cleanup and replay blocking, two-process contention and process death before/after config replacement followed by explicit recovery. A subsequent targeted run covered pending cleanup status. These do not establish production readiness or complete V01/V16, and are not a substitute for Windows reproduction and actual client checks. P1/P2/P3 remain incomplete.
+
+
+## Review follow-up
+
+[SETUP-APPLY-REVIEW.md](SETUP-APPLY-REVIEW.md) records a concurrent-unlock race and its correction. After the correction, Linux Node 24.22.1: typecheck passed, 14/14 focused setup-apply tests and 81/81 full tests passed, and the setup demo passed. User-provided Windows output separately reports typecheck, 80/80 tests with no skips and the synthetic setup demo passing before this correction; HEAD/runtime versions were not printed in that output. The recovery correction awaits Windows reproduction. Actual client launch/setup remains unverified.

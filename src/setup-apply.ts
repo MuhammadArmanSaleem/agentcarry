@@ -134,9 +134,17 @@ export function forgetSetup(workspace:string,id:string){
   clearTemps(c,id);return report(r,'forgotten');
  });
 }
-export function unlockSetup(workspace:string,id:string,confirm:unknown){
- if(confirm!==true)return fail('explicit abandoned-lock confirmation required');const c=context(workspace),path=join(c.directory,'lock');token(id);safeFile(path,4096);const lock=parse(readFileSync(path,'utf8'));
- if(lock.token!==id||!Number.isSafeInteger(lock.pid)||Number(lock.pid)<=0)return fail('lock identity mismatch');
- try{process.kill(Number(lock.pid),0);return fail('setup lock owner is still running');}catch(error){if((error as NodeJS.ErrnoException).code!=='ESRCH')throw error;}
- unlinkSync(path);return {status:'unlocked',operation_id:id,config_changed:false};
+export function unlockSetup(workspace:string,id:string,confirm:unknown,stage:(name:string)=>void=()=>{}){
+ if(confirm!==true)return fail('explicit abandoned-lock confirmation required');const c=context(workspace),path=join(c.directory,'lock');token(id);
+ // Serialize recoverers, not just writers: a second recoverer must never unlink
+ // a replacement lock acquired after the first recoverer removed the old one.
+ const guard=join(c.directory,'recovery-lock');let fd:number;
+ try{fd=openSync(guard,'wx',0o600);}catch{return fail('setup recovery lock present or unavailable; inspect before retrying');}
+ try{
+  writeFileSync(fd,JSON.stringify({token:id,pid:process.pid}));fsyncSync(fd);
+  safeFile(path,4096);const lock=parse(readFileSync(path,'utf8'));
+  if(lock.token!==id||!Number.isSafeInteger(lock.pid)||Number(lock.pid)<=0)return fail('lock identity mismatch');
+  try{process.kill(Number(lock.pid),0);return fail('setup lock owner is still running');}catch(error){if((error as NodeJS.ErrnoException).code!=='ESRCH')throw error;}
+  stage('abandoned_lock_verified');unlinkSync(path);return {status:'unlocked',operation_id:id,config_changed:false};
+ }finally{closeSync(fd);unlinkSync(guard);}
 }
