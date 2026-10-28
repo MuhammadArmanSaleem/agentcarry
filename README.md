@@ -26,7 +26,7 @@ Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Cl
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 63 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
+The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 67 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 
@@ -50,3 +50,7 @@ Affordability requirement: AgentCarry local knowledge and continuity must not re
 ## Static checks
 
 Run `npm ci`, then `npm run typecheck` for strict checking of src/**/*.ts, and `npm test` for runtime behavior. See [TYPECHECK.md](TYPECHECK.md) for scope, versions and limitations. No JavaScript is emitted; Node continues to execute the TypeScript source directly.
+
+## Setup preview
+
+From the intended project workspace, use `node /absolute/path/to/agentcarry/src/cli.ts setup-preview gemini` or `setup-preview opencode` to inspect the proposed local MCP entry without writing configuration. See [SETUP-PREVIEW.md](SETUP-PREVIEW.md). Applying changes, backups, rollback and guided installation remain unimplemented.

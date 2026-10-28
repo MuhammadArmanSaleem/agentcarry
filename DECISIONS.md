@@ -150,3 +150,12 @@ Reason: Native stripping does not validate types; compiler checking identified i
 Alternatives: Keep runtime-only checks; introduce a compiled distribution now; silence the SDK error with any or suppressions.
 Consequences: No runtime compiler requirement or new model cost. The native compiler uses platform-specific optional packages; user-provided Windows installation/typecheck output passed before the review fixture follow-up. Existing explicit any at JSON/storage boundaries remains a limitation, not full schema typing. Packaging/CI remain separate.
 Evidence: Linux clean npm ci, typecheck passed, 63/63 runtime tests, npm audit reported zero vulnerabilities. New cancellation protocol test fails with the old property and passes with the corrected one. See TYPECHECK.md. User-provided Windows branch output subsequently reports installation, typecheck and 63/63 tests before fixture review corrections. No real-client cancellation UI claim for this change.
+
+
+## D019 — Preview project-local client configuration before implementing writes
+Date: 2026-10-28. Status: read-only prototype; apply/rollback pending.
+Decision: Add a CLI-only setup-preview for selected Gemini/OpenCode v2 project JSON settings, emitting only the owned entry fragment and conservative conflicts. Never expose unrelated config values or modify files in preview. Explicitly reject JSONC and legacy owned-entry ambiguity.
+Reason: Reduce manual assembly of executable/workspace paths while avoiding premature config mutation without preservation/rollback support.
+Alternatives: Auto-edit global settings; output entire existing settings including credentials; treat generated snippets as completed installation.
+Consequences: Store initialization, global/environment precedence, project trust, actual connectivity and version checks remain separate. Local filesystem ownership is still the boundary. A future apply must revalidate rather than trust this mutable preview. No dependency or cloud/model requirement is added.
+Evidence: Linux Node 24.22.1 typecheck, four setup cases and combined 67/67 tests; user-provided Windows output subsequently reports typecheck, 67/67 tests and a Gemini setup-preview result. This does not establish client configuration or connectivity. See SETUP-PREVIEW.md.
