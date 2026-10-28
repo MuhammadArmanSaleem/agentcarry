@@ -1,4 +1,4 @@
-// Local prototype; native Node type stripping is not a static typecheck.
+// Local prototype; Node strips types at runtime. Run npm run typecheck for static validation.
 import { DatabaseSync } from 'node:sqlite';
 import { randomUUID, createHash } from 'node:crypto';
 import { existsSync, mkdirSync, lstatSync, realpathSync, openSync, closeSync, writeFileSync } from 'node:fs';
@@ -15,7 +15,7 @@ export function shape(value: ObjectData, required: string[], optional: string[] 
 }
 function text(value: unknown) {if(typeof value!=='string' || !value.trim() || value.length>8000)fail('invalid text');}
 function id(value: unknown) {if(typeof value!=='string' || !uuid.test(value))fail('UUID v4 required');}
-function list(value: unknown) {if(!Array.isArray(value)||value.length>30)fail('bounded list required'); for(const v of value)text(v);}
+function list(value: unknown) {if(!Array.isArray(value))return fail('bounded list required'); if(value.length>30)fail('bounded list required'); for(const v of value)text(v);}
 function policy(value: ObjectData) {
   shape(value,['max_bytes','retention_days']);
   if(!Number.isSafeInteger(value.max_bytes)||value.max_bytes<4096||value.max_bytes>16*1024*1024||

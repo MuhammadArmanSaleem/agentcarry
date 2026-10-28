@@ -99,3 +99,8 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 ## Local MCP preview review
 
 [MCP-REVIEW.md](MCP-REVIEW.md) records Linux and user-provided Windows 59-test results, limited prompted Gemini-to-OpenCode continuity, version uncertainty and the OpenCode call-display discrepancy. Code review recommends the unpublished manual preview for a user merge decision, not release or phase acceptance. Follow-ups: static TypeScript checking, guided setup preserving existing config with rollback, lifecycle/process cleanup and wider real-client validation. P1/P2/P3 gates remain open.
+
+
+## Static TypeScript checking follow-up
+
+[TYPECHECK.md](TYPECHECK.md) adds strict/noEmit checking of the TypeScript runtime, pinned compiler/Node types, and corrects MCP SDK signal access. Linux: typecheck passed, npm test 63/63, audit zero at the recorded run. The new wire-level cancellation test detects the former signal-access bug. User-provided Windows output reports typecheck and 63/63 tests before the review fixture corrections; Windows for those corrections, full typed schemas, CI enforcement and packaging remain open; this does not complete P1/P2/P3 gates.
