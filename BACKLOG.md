@@ -118,3 +118,9 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 
 Setup review follow-up: fixed a concurrent abandoned-lock recovery race using an exclusive recovery guard. Linux typecheck, 14/14 focused tests, 81/81 full tests and setup demo passed. User-reported Windows typecheck, 80/80 tests and demo cover the prior implementation; the correction awaits Windows reproduction. Interrupted recovery guards require manual inspection. See [SETUP-APPLY-REVIEW.md](SETUP-APPLY-REVIEW.md). Real-client setup and P1/P2/P3 gates remain open.
 
+
+
+## Guided terminal onboarding preview
+
+[SETUP-WIZARD.md](SETUP-WIZARD.md) adds confirmed initialization/client setup and explicit menu-based undo/forget over existing core operations. Linux typecheck, 10 focused tests, 91 full tests, setup demo and a pseudo-terminal install/cancellation smoke passed. User-reported Windows wizard checks cover cancellation, fresh initialization and both clients' configure/connect/undo/forget. Connection diagnostics, exact version qualification, Windows Ctrl+C/rendering, packaging, automatic capture and full phase gates remain pending. [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) records separate user-provided basic lower-level client setup/rollback/forget and Windows recovery-fix test results.
+

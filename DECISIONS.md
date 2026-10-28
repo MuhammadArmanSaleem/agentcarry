@@ -172,3 +172,13 @@ Evidence: Linux Node 24.22.1: typecheck, 80/80 tests and disposable CLI setup de
 
 D020 review follow-up: serialize abandoned-lock recoverers with a separate exclusive recovery guard. Without it, two recoverers could delete a replacement writer lock. An interrupted recovery guard fails closed for manual inspection, rather than recursive automatic unlock. Linux typecheck, 14 focused tests, 81 full tests and synthetic demo passed after the fix. User-provided Windows output covers the preceding 80-test version and demo; the correction awaits Windows. See SETUP-APPLY-REVIEW.md.
 
+
+
+## D021 — Terminal onboarding over existing setup operations
+Date: 2026-10-28. Status: implemented local preview; Windows terminal qualification pending.
+Decision: Add an interactive setup menu with one-client preview/confirmation, explicit initialization policy inputs, generated retry tokens/revision binding, and metadata-only operation selection for undo/forget. Keep JSON automation unchanged. Cloud, client launch/trust and connectivity remain separate.
+Reason: Remove repeated manual JSON/hash assembly without duplicating config mutation or silently choosing quota/retention settings.
+Alternatives: Add another mutation implementation; accept piped confirmations; auto-initialize or auto-trust projects; build a hosted onboarding service first.
+Consequences: Requires a terminal. Confirmed initialization survives later cancellation/failure. Existing exact entries are not adopted. Recovery locks still fail closed, and history selection is bounded at 100 summaries. A human transcript plus final JSON is not the machine interface. No dependencies or schema changes.
+Evidence: Linux Node 24.22.1 typecheck, 10 focused tests, 91 full tests and existing setup demo passed; Linux pseudo-terminal confirmed install and Ctrl+C cancellation. Windows wizard reproduction remains pending. Separate user-reported lower-level Gemini/OpenCode setup and Windows 81-test review evidence are recorded in CLIENT-SETUP-CHECKS.md; they do not verify this wizard.
+
