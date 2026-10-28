@@ -109,3 +109,12 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 ## Read-only project setup planning
 
 [SETUP-PREVIEW.md](SETUP-PREVIEW.md) adds setup-preview for Gemini and OpenCode v2, reporting an entry fragment, exact-match/conflict status and unsupported config cases without writing config or opening storage. Linux typecheck and 67/67 tests passed; user-provided Windows branch output also reports typecheck, 67/67 tests and a read-only Gemini preview. Applying changes, backups, conflict-aware rollback, JSONC and actual client setup remain unimplemented. This is partial guided-setup work, not a completed P3 adapter.
+
+
+## Explicit setup apply and rollback preview
+
+[SETUP-APPLY.md](SETUP-APPLY.md) adds plan/config revision checks, private backups, same-token retry, rollback preserving unrelated later edits, scoped forgetting and explicit stale-lock recovery. Core SQL schema and dependencies are unchanged. Linux typecheck, 80/80 tests and the disposable setup demo passed. Windows and actual client checks remain pending. This partially exercises V01; it does not establish a guided installer or complete P3. Close clients/editors while changing configuration: locks coordinate only AgentCarry operations.
+
+
+Setup review follow-up: fixed a concurrent abandoned-lock recovery race using an exclusive recovery guard. Linux typecheck, 14/14 focused tests, 81/81 full tests and setup demo passed. User-reported Windows typecheck, 80/80 tests and demo cover the prior implementation; the correction awaits Windows reproduction. Interrupted recovery guards require manual inspection. See [SETUP-APPLY-REVIEW.md](SETUP-APPLY-REVIEW.md). Real-client setup and P1/P2/P3 gates remain open.
+
