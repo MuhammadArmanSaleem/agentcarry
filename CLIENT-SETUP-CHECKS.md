@@ -26,6 +26,13 @@ In a fresh disposable workspace, cancellation returned cancelled and dir /a show
 
 Invalid operation selection (an ID or out-of-range number) was rejected before the user selected list number 1. An invocation from the uninitialized repository refused with not initialized; the user returned to the intended disposable workspace and completed cleanup. Some pasted terminal lines overlap; the cause and native display behavior have not been established.
 
-OpenCode v2.1.4 was printed in the preceding lower-level check, but was not reprinted for these wizard runs. Gemini's wizard journey, real-client preservation of existing unrelated config, tool invocation, Ctrl+C behavior on Windows, and complete V01/V11/V12/V16 remain unverified. Repeated initial missing-server listings remain unresolved; no cache/startup diagnosis or guaranteed retry is claimed.
+OpenCode v2.1.4 was printed in the preceding lower-level check, but was not reprinted for these wizard runs. Real-client preservation of existing unrelated config, tool invocation, Ctrl+C behavior on Windows, and complete V01/V11/V12/V16 remain unverified. Repeated initial missing-server listings remain unresolved; no cache/startup diagnosis or guaranteed retry is claimed.
 
 Review follow-up: no blocking defect identified in the added wizard/control-flow changes within the documented preview scope. A local rerun passed typecheck, 91/91 tests with zero skips, and the synthetic setup demo. This does not resolve the real-client uncertainties above or complete any phase gate.
+
+
+### Gemini wizard follow-up
+
+User-supplied Windows 10 Command Prompt output on 2026-10-29 also shows the Gemini wizard applying configuration in the initialized disposable workspace. Gemini detected but disabled the server while the workspace was untrusted. A user-set terminal environment trust override allowed a connected listing; the user was instructed to clear the override afterward. The pasted clear command overlaps other output, so its execution is not independently established. AgentCarry did not change trust.
+
+Menu undo returned rolled_back and Gemini then reported no configured MCP servers. Menu forgetting returned forgotten with backup_contains_config:false. Thus both clients completed the basic guided configure/connect/undo/forget journey. Gemini's exact version was not printed in this wizard run; tool invocation and broader lifecycle/compatibility remain unverified.
