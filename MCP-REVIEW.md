@@ -1,6 +1,6 @@
 # MCP preview review and manual handoff evidence
 
-Status: draft PR review; not release acceptance. The following summarizes user-provided terminal and agent output; it was not independently observed on the user's machine. No private transcripts or local paths are recorded here.
+Status: reviewed for an unpublished local MCP development preview; not release acceptance. The following summarizes user-provided terminal and agent output; it was not independently observed on the user's machine. No private transcripts or local paths are recorded here.
 
 ## Evidence
 
@@ -12,14 +12,14 @@ Status: draft PR review; not release acceptance. The following summarizes user-p
 
 ## Review findings and follow-up
 
-1. **Write timeout ambiguity.** The MCP wrapper calls spawnSync with a 15-second timeout. A process could commit before a timeout or response loss, so an error must not be interpreted as proof that no write occurred. Retry the *same token and exactly the same payload* and inspect the acknowledgement. A Linux test now simulates cancellation after a real CLI write committed and before acknowledgement, then retries the identical token/payload and verifies one task. The timeout branch is also tested with a slow subprocess; real-client lost responses remain unverified.
-2. **Tool calls block the server event loop.** The wrapper now uses asynchronous subprocesses and forwards SDK cancellation signals. A Linux helper-level test checks another subprocess can complete while one runs, plus cancellation and timeout. Full concurrent MCP requests, slow Git, process-tree cleanup, client cancellation behavior and shutdown still need tests before production.
+1. **Write timeout ambiguity.** The original MCP wrapper used spawnSync with a 15-second timeout; the current wrapper is asynchronous. A process could commit before a timeout or response loss, so an error must not be interpreted as proof that no write occurred. Retry the *same token and exactly the same payload* and inspect the acknowledgement. A Linux test now simulates cancellation after a real CLI write committed and before acknowledgement, then retries the identical token/payload and verifies one task. The timeout branch is also tested with a slow subprocess; real-client lost responses remain unverified.
+2. **Original blocking subprocess implementation replaced.** The wrapper now uses asynchronous subprocesses and forwards SDK cancellation signals. A Linux helper-level test checks another subprocess can complete while one runs, plus cancellation and timeout. Full concurrent MCP requests, slow Git, process-tree cleanup, client cancellation behavior and shutdown still need tests before production.
 3. **Real-model input fidelity is imperfect.** Gemini initially omitted a required field and then replaced an empty list with a literal string. The application accepted the supplied string; the server did not independently verify the agent's intent. Improve instructions/confirmation and test empty lists and failure recovery without fabricating missing facts.
 4. **Setup and compatibility are incomplete.** This run required manual project configuration, a temporary workspace trust setting for Gemini, and a retry of the OpenCode list command. Configuration preservation/rollback and guided setup are not implemented or tested. Repeat using exact recorded client versions, a fresh client/session and a representative Git project; do not infer the cause of OpenCode's initial empty list.
 5. **Capture and privacy boundaries remain open.** Only explicit fields were saved; no automatic checkpointing, transcript access or redaction was verified. User-supplied client/version and reported checks are not independently authenticated. Session IDs are generated per checkpoint, not derived from the client's actual session. Tests must avoid real secrets and sensitive context.
 6. **Verification gaps.** Test unknown or unavailable store, lost acknowledgement, fresh process handoff and abrupt client termination against last acknowledged write; exercise conflicting tips through real clients; run static TypeScript checking and assess MCP request size/protocol boundaries. The current automated MCP test uses simulated clients, not independent full client implementations.
 
-The PR remains draft pending review and the above follow-up. No merge is implied by the passing test or this manual experiment.
+These findings are classified below against the narrow preview scope. No merge or production acceptance is implied by the passing test or manual experiment.
 
 
 ## Updated Windows and resume evidence
@@ -32,3 +32,14 @@ The OpenCode call display included an extra token argument, which resume_task do
 ## Version follow-up
 
 After the resume smoke test, the user ran version commands in the test workspace: Gemini CLI 0.66.0 and OpenCode v2.1.4. These identify the installed clients at that time. They do not retroactively authenticate the earlier Gemini session or the checkpoint's agent-supplied 0.65.0 label; the earlier update timing remains uncertain. No additional tool operation or implementation test was performed for this documentation update.
+
+
+## Merge-readiness assessment — 2026-10-28
+
+Recommendation: ready for user review and a merge decision as an unpublished, manually configured, synthetic-data local MCP preview. No known merge-blocking defect was identified in the reviewed changes within that narrow scope. This is the implementing assistant's code review, not an independent audit, and does not waive product acceptance gates.
+
+Required corrections completed: replace blocking subprocess calls, preserve strict resume arguments, warn about uncertain write outcomes and retain same-token retry semantics, upgrade the vulnerable dependency, and record real-test discrepancies without changing their meaning. Linux full suite passed 59/59 at ef4b54c; user-provided Windows output reports the same. The later strict-argument assertion passed in the focused three-test Linux MCP suite; later commits otherwise changed documentation. No new test run was performed for this assessment.
+
+Remaining items are follow-up work rather than claims made by this preview: automated config preservation/rollback, static TypeScript checking, request and process lifecycle hardening, secret exclusions/redaction, abrupt real-client interruption tests, Git-workspace handoffs, independently confirmed running versions, broader schema/protocol coverage and the unexplained OpenCode token display. Before advertising supported integrations or persistent use with real project data, complete the applicable gates. The input-fidelity discrepancy remains visible; do not silently rewrite stored history to make the test appear exact.
+
+Suggested next focused development step: establish static TypeScript checking for the current runtime, then build guided setup with preview, backups and conflict-aware rollback. Do not expand client targets or add cloud requirements before the first pair is easier to set up and its limits are measured.
