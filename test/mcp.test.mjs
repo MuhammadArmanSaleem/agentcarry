@@ -58,3 +58,33 @@ test('slow subprocess does not block other calls and cancellation stops it',asyn
  const timed=await runProcess(process.execPath,['-e','setTimeout(()=>{},10000)'],{cwd:tmpdir(),input:'',timeoutMs:200,maxBytes:1000});
  assert.equal(timed.ok,false);assert.match(timed.error,/timed out.*outcome may be unknown/i);
 });
+
+test('pre-cancelled work never starts a writer; missing executables fail explicitly',async t=>{
+ const {runProcess}=await import('../src/mcp-process.ts');const root=mkdtempSync(join(tmpdir(),'agentcarry-preabort-'));t.after(()=>rmSync(root,{recursive:true,force:true}));
+ const marker=join(root,'unexpected-write'),controller=new AbortController();controller.abort();
+ const result=await runProcess(process.execPath,['-e',"require('node:fs').writeFileSync(process.argv[1],'bad')",marker],{cwd:root,input:'',timeoutMs:1000,maxBytes:1000,signal:controller.signal});
+ assert.equal(result.ok,false);assert.match(result.error,/before execution/);assert.equal(existsSync(marker),false);
+ const missing=await runProcess(join(root,'nonexistent-executable'),[],{cwd:root,input:'',timeoutMs:1000,maxBytes:1000});assert.equal(missing.ok,false);assert.ok(missing.error);
+});
+
+test('output overflow stops a child and ignored termination cannot defeat timeout',async()=>{
+ const {runProcess}=await import('../src/mcp-process.ts');
+ const overflow=await runProcess(process.execPath,['-e',"process.stdout.write('x'.repeat(65536));setInterval(()=>{},1000)"],{cwd:tmpdir(),input:'',timeoutMs:3000,maxBytes:100});
+ assert.equal(overflow.ok,false);assert.match(overflow.error,/output exceeded/);assert.ok(overflow.stdout.length<=100);
+ const start=Date.now();const ignored=await runProcess(process.execPath,['-e',"process.on('SIGTERM',()=>{});setInterval(()=>{},1000)"],{cwd:tmpdir(),input:'',timeoutMs:500,maxBytes:100});
+ assert.equal(ignored.ok,false);assert.match(ignored.error,/timed out/);assert.ok(Date.now()-start<5000);
+});
+
+test('MCP failures preserve isolation and concurrent retries return one task',async t=>{
+ const roots=[mkdtempSync(join(tmpdir(),'agentcarry-mcp-a-')),mkdtempSync(join(tmpdir(),'agentcarry-mcp-b-'))];
+ t.after(()=>roots.forEach(root=>rmSync(root,{recursive:true,force:true})));
+ const a=client(roots[0]),b=client(roots[1]);t.after(()=>a.p.kill());t.after(()=>b.p.kill());await a.start();await b.start();
+ const failed=await a.req('tools/call',{name:'resume_task',arguments:{task_id:randomUUID()}});assert.equal(failed.result.isError,true);assert.match(failed.result.content[0].text,/not initialized/);
+ for(const root of roots){const r=spawnSync(process.execPath,[cli,'init','--new','--max-bytes','1048576','--retention-days','30'],{cwd:root,encoding:'utf8'});assert.equal(r.status,0,r.stderr);}
+ const input={token:randomUUID(),goal:'Scoped retry',acceptance_criteria:['No duplicate']};
+ const replies=await Promise.all([a.req('tools/call',{name:'create_task',arguments:input}),a.req('tools/call',{name:'create_task',arguments:input})]);
+ for(const r of replies)assert.ok(!r.result.isError,JSON.stringify(r));const records=replies.map(r=>JSON.parse(r.result.content[0].text));assert.equal(records[0].id,records[1].id);
+ const foreign=await b.req('tools/call',{name:'resume_task',arguments:{task_id:records[0].id}});assert.equal(foreign.result.isError,true);assert.match(foreign.result.content[0].text,/task not found/);
+ const reuse=await a.req('tools/call',{name:'create_task',arguments:{...input,goal:'Changed'}});assert.equal(reuse.result.isError,true);assert.match(reuse.result.content[0].text,/token reused/);
+ const snapshot=spawnSync(process.execPath,[cli,'export'],{cwd:roots[0],encoding:'utf8'});assert.equal(JSON.parse(snapshot.stdout).tasks.length,1);
+});
