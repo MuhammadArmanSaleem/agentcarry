@@ -61,3 +61,9 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 
 Setup review follow-up: user-provided Windows output reports typecheck, 80/80 tests with no skips, and the disposable setup demo passing for both clients before the review correction. Concurrent abandoned-lock recovery is now serialized; Linux typecheck, 14/14 focused tests, 81/81 full tests and demo passed after that correction. Windows reproduction of the correction and real-client setup remain pending. See [SETUP-APPLY-REVIEW.md](SETUP-APPLY-REVIEW.md); no gate is completed.
 
+
+
+## Guided setup partial coverage
+
+[SETUP-WIZARD.md](SETUP-WIZARD.md): Linux typecheck, 10 focused tests, 91 full tests and setup demo passed, plus a pseudo-terminal install/Ctrl+C smoke. Covers explicit confirmation/cancellation, initialization boundaries, both client flows, metadata-only operation selection, stale previews and machine-interface preservation. Windows terminal validation is pending. [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) separately records user-provided Windows basic lower-level Gemini/OpenCode configuration connectivity/rollback/forget and 81-test correction evidence. This does not complete V01/V16 or any phase gate.
+

@@ -21,9 +21,16 @@ function observe(root: string) {
     return {branch,commit,dirty_state:git('status','--porcelain')?'dirty':'clean',reason:commit?null:'unborn'};
   }catch{return {branch:null,commit:null,dirty_state:'unknown',reason:'unavailable'};}
 }
-function run() {
+async function run() {
   const [command,...args]=process.argv.slice(2), root=process.cwd();
-  if(command==='help'||!command)return {prototype:true,commands:['setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock','setup-preview gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for search-json/task/update/checkpoint/resume/delete-task/configure',capture:'manual'};
+  if(command==='help'||!command)return {prototype:true,commands:['setup','setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock','setup-preview gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for setup-apply/setup-rollback/setup-status/setup-forget/setup-unlock/search-json/task/update/checkpoint/resume/delete-task/configure; setup requires an interactive terminal',capture:'manual'};
+  if(command==='setup'){
+    if(args.length)fail('setup takes no arguments; run from the intended workspace');
+    if(!process.stdin.isTTY||!process.stdout.isTTY)fail('setup requires an interactive terminal; automation must use setup-preview and explicit JSON setup operations');
+    const {runSetupWizard,terminalSetupUI}=await import('./setup-wizard.ts');
+    const ui=terminalSetupUI(process.stdin,process.stdout);
+    try{return await runSetupWizard(root,ui);}finally{ui.close();}
+  }
   if(['setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock'].includes(command??'')){
     if(args.length)fail('setup operations use JSON stdin');const v=input();
     if(command==='setup-apply')return applySetup(root,v);
@@ -63,5 +70,5 @@ function run() {
     }
   }finally{store.close();}
 }
-try{process.stdout.write(JSON.stringify(run(),null,2)+'\n');}
+try{process.stdout.write(JSON.stringify(await run(),null,2)+'\n');}
 catch(error){process.stderr.write(JSON.stringify({error:(error as Error).message})+'\n');process.exitCode=1;}

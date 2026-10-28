@@ -1,14 +1,14 @@
 # Compatibility matrix
 
-All integrations are **unimplemented and untested** as of this documentation foundation. A shared instruction file is not a working adapter.
+No integration is supported as a released product. Limited user-reported setup checks and manual handoff evidence exist below; they do not establish full adapter or automatic-capture compatibility. A shared instruction file is not a working adapter.
 
 | Target | Configuration | Knowledge | Checkpoints | Automatic lifecycle | Cross-agent handoff |
 |---|---|---|---|---|---|
 | Claude Code | Untested | Untested | Untested | Untested | Untested |
 | Codex | Untested | Untested | Untested | Untested | Untested |
 | Cursor | Untested | Untested | Untested | Untested | Untested |
-| OpenCode | Untested | Untested | Untested | Untested | Untested |
-| Gemini CLI | Untested | Untested | Untested | Untested | Untested |
+| OpenCode | Limited user-reported basic setup | Untested | Untested | Untested | Untested |
+| Gemini CLI | Limited user-reported basic setup | Untested | Untested | Untested | Untested |
 | Antigravity | Untested | Untested | Untested | Untested | Untested |
 | Manus | Untested | Untested | Untested | Untested | Untested |
 
@@ -38,3 +38,9 @@ Official documentation reviewed for local Claude Code and local Codex on 2026-10
 ## Google client research
 
 Gemini CLI and Antigravity official MCP/rules/hooks documentation reviewed 2026-10-25. Their settings paths, remote endpoint fields and lifecycle event names differ; see [INTEGRATION-RESEARCH.md](INTEGRATION-RESEARCH.md). Neither was run. All compatibility cells remain untested. [MANUAL-HANDOFF.md](MANUAL-HANDOFF.md) is an optional baseline, not an installed adapter.
+
+
+## Limited local setup evidence
+
+See [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md): user-provided Windows output shows lower-level apply, connected listing, rollback and forgetting for Gemini (current version not printed) and OpenCode v2.1.4. Gemini required explicit user trust; OpenCode first reported no servers, then connected on a repeated listing without an observed config change. Cause unknown. Empty starting configs do not qualify real-client preservation of existing settings. Earlier manually prompted continuity is separate in MCP-REVIEW.md; the matrix's other cells remain unqualified by these setup checks. The new terminal wizard awaits Windows reproduction. No complete V01/V11/V12/V16 result or automatic capture claim.
+

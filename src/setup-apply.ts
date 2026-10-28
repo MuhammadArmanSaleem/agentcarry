@@ -99,6 +99,13 @@ export function applySetup(workspace:string,request:Config,stage:(name:string)=>
  });
 }
 export function setupStatus(workspace:string,id:string){const c=context(workspace),r=readJournal(c,token(id));if(r.phase==='forgotten'){const pending=readdirSync(c.directory).some(n=>n.startsWith('tmp-'+r.id+'-'));return {...report(r,'forgotten'),backup_contains_config:pending,cleanup_pending:pending};}const s=inspectSetup(c.root,r.client);const observed=s.revision===r.after_hash?'applied':s.revision===r.before_hash?'original':'changed';return {...report(r,r.phase),observed_config:observed};}
+// Bounded, metadata-only selection for the interactive setup UI. Never return backups.
+export function listSetupOperations(workspace:string){
+ const c=context(workspace);if(!stat(c.directory))return [];
+ const names=readdirSync(c.directory).filter(n=>n.endsWith('.json')).sort();
+ if(names.length>100)return fail('more than 100 setup operations; use setup-status with an explicit operation token');
+ return names.map(name=>{const r=readJournal(c,name.slice(0,-5));return {id:r.id,client:r.client,phase:r.phase};});
+}
 export function rollbackSetup(workspace:string,id:string,stage:(name:string)=>void=()=>{}){
  const c=context(workspace);token(id);
  return withLock(c,id,()=>{
