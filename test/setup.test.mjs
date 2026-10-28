@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { previewSetup } from '../src/setup.ts';
+import { previewSetup,checkSetup } from '../src/setup.ts';
 function workspace(t){const root=mkdtempSync(join(tmpdir(),'agentcarry-setup-'));t.after(()=>rmSync(root,{recursive:true,force:true}));return root;}
 
 test('setup CLI previews both clients without creating configuration or a store',t=>{
@@ -44,4 +44,43 @@ test('linked config directories and hard-linked config files are not read',t=>{
  assert.throws(()=>previewSetup(root,'gemini'),/unsafe Gemini/);
  const source=join(other,'original.json');writeFileSync(source,'{}');linkSync(source,join(root,'opencode.json'));
  assert.throws(()=>previewSetup(root,'opencode'),/unsafe client config/);assert.equal(readFileSync(source,'utf8'),'{}');
+});
+
+
+test('setup-check runs without initialization, preserves files and withholds config secrets',t=>{
+ const root=workspace(t),cli=fileURLToPath(new URL('../src/cli.ts',import.meta.url));
+ for(const client of ['gemini','opencode']){
+  const first=spawnSync(process.execPath,[cli,'setup-check',client],{cwd:root,encoding:'utf8'});
+  assert.equal(first.status,0,first.stderr);const missing=JSON.parse(first.stdout);
+  assert.equal(missing.configuration,'missing_config');assert.equal(missing.local_store,'missing');
+  assert.equal(missing.connectivity,'not_checked');assert.equal(missing.trust,'not_checked');assert.equal(missing.changes_applied,false);
+  const p=previewSetup(root,client);if(client==='gemini')mkdirSync(join(root,'.gemini'));
+  writeFileSync(p.config_path,JSON.stringify({private:'synthetic-secret'}));
+  const bytes=readFileSync(p.config_path);const check=checkSetup(root,client);
+  assert.equal(check.configuration,'missing_entry');assert.ok(!JSON.stringify(check).includes('synthetic-secret'));
+  assert.deepEqual(readFileSync(p.config_path),bytes);
+ }
+ assert.deepEqual(readdirSync(root).sort(),['.gemini','opencode.json']);
+});
+
+test('setup-check distinguishes matching and conflicting entries and config revisions',t=>{
+ const root=workspace(t),plan=previewSetup(root,'opencode');
+ const config={mcp:{servers:{'agentcarry-preview':plan.proposed_entry}},credential:'synthetic-secret'};
+ writeFileSync(plan.config_path,JSON.stringify(config));const before=checkSetup(root,'opencode');
+ assert.equal(before.configuration,'matches');assert.equal(before.client_version,'not_checked');
+ config.mcp.servers['agentcarry-preview']={type:'local',command:['synthetic-secret']};
+ writeFileSync(plan.config_path,JSON.stringify(config));const after=checkSetup(root,'opencode');
+ assert.equal(after.configuration,'conflict');assert.notEqual(after.config_revision,before.config_revision);
+ assert.ok(!JSON.stringify(after).includes('synthetic-secret'));
+ writeFileSync(plan.config_path,'{ synthetic-secret');assert.throws(()=>checkSetup(root,'opencode'),/strict JSON/);
+});
+
+test('setup-check does not open a database and reports unsafe store paths',t=>{
+ const root=workspace(t),other=workspace(t);mkdirSync(join(root,'.agentcarry'));
+ const db=join(root,'.agentcarry','local.sqlite');writeFileSync(db,'synthetic-invalid-database');
+ const before=readFileSync(db);assert.equal(checkSetup(root,'gemini').local_store,'present_not_validated');
+ assert.deepEqual(readFileSync(db),before);assert.deepEqual(readdirSync(join(root,'.agentcarry')),['local.sqlite']);
+ rmSync(join(root,'.agentcarry'),{recursive:true});symlinkSync(other,join(root,'.agentcarry'),'junction');
+ assert.equal(checkSetup(root,'gemini').local_store,'unsafe');assert.deepEqual(readdirSync(other),[]);
+ symlinkSync(other,join(root,'.gemini'),'junction');assert.throws(()=>checkSetup(root,'gemini'),/unsafe Gemini/);
 });

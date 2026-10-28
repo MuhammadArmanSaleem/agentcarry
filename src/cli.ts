@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { LocalStore, initialize, shape, fail } from './local.ts';
 import { searchKnowledge } from './knowledge.ts';
-import { previewSetup } from './setup.ts';
+import { previewSetup,checkSetup } from './setup.ts';
 import { applySetup,rollbackSetup,setupStatus,forgetSetup,unlockSetup } from './setup-apply.ts';
 
 function input() {
@@ -23,7 +23,7 @@ function observe(root: string) {
 }
 async function run() {
   const [command,...args]=process.argv.slice(2), root=process.cwd();
-  if(command==='help'||!command)return {prototype:true,commands:['setup','setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock','setup-preview gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for setup-apply/setup-rollback/setup-status/setup-forget/setup-unlock/search-json/task/update/checkpoint/resume/delete-task/configure; setup requires an interactive terminal',capture:'manual'};
+  if(command==='help'||!command)return {prototype:true,commands:['setup','setup-apply','setup-rollback','setup-status','setup-forget','setup-unlock','setup-preview gemini|opencode','setup-check gemini|opencode','search "query"','search-json','init --new --max-bytes N --retention-days N','status','doctor','token','task','update','checkpoint','resume','export','delete-task','configure','prune'],input:'JSON via stdin for setup-apply/setup-rollback/setup-status/setup-forget/setup-unlock/search-json/task/update/checkpoint/resume/delete-task/configure; setup requires an interactive terminal',capture:'manual'};
   if(command==='setup'){
     if(args.length)fail('setup takes no arguments; run from the intended workspace');
     if(!process.stdin.isTTY||!process.stdout.isTTY)fail('setup requires an interactive terminal; automation must use setup-preview and explicit JSON setup operations');
@@ -40,6 +40,7 @@ async function run() {
     if(command==='setup-forget')return forgetSetup(root,v.token);
     return unlockSetup(root,v.token,v.confirm_abandoned);
   }
+  if(command==='setup-check'){if(args.length!==1)fail('use setup-check gemini|opencode');return checkSetup(root,args[0]);}
   if(command==='setup-preview'){if(args.length!==1)fail('use setup-preview gemini|opencode');return previewSetup(root,args[0]);}
   if(command==='search'){if(args.length!==1)fail('use search "query"');return searchKnowledge({query:args[0]});}
   if(command==='search-json'){if(args.length)fail('use JSON stdin');return searchKnowledge(input());}
