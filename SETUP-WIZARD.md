@@ -32,7 +32,7 @@ The human terminal command deliberately rejects piped input or redirected output
 
 Linux x64, Node 24.22.1: typecheck passed; 10/10 focused wizard tests and 91/91 full tests passed; the existing setup demo passed. Tests cover cancellation/EOF, invalid input, separately confirmed initialization, both clients' install/undo/forget journeys, exact/conflicting entries, hidden unrelated secrets, stale plans, persisted undo selection after lost acknowledgement and noninteractive refusal.
 
-A separate Linux pseudo-terminal smoke completed a confirmed Gemini config install and a fresh invocation cancelled with Ctrl+C. Neither coding client was launched. Windows terminal behavior and the wizard's actual-client journey still require reproduction. Prior lower-level client checks are recorded separately in [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md). No P1/P2/P3 gate is completed.
+A separate Linux pseudo-terminal smoke completed a confirmed Gemini config install and a fresh invocation cancelled with Ctrl+C. Neither coding client was launched. User-reported Windows 10 checks now cover cancellation, explicit fresh initialization, and both clients' configure/connect/undo/forget journeys. Gemini required user-controlled trust; OpenCode repeatedly missed the server on its first listing. Exact checkout/runtime and Gemini version were not printed; Windows Ctrl+C and overlapping native terminal rendering remain unconfirmed. These and prior lower-level checks are recorded in [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md). No P1/P2/P3 gate is completed.
 
 For review:
 ```sh
