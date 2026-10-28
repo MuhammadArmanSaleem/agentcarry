@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync,rmSync } from 'node:fs';
+import { mkdtempSync,rmSync,existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,4 +28,32 @@ test('separate MCP clients share explicit workspace and preserve reported checkp
  const cp=await call(a,'save_checkpoint',{token:randomUUID(),task_id:task.id,parent_checkpoint_ids:[],client:'test-a',client_version:'1',decisions:['Use labels'],failed_attempts:['Mouse only'],unresolved:[],next_steps:['Test keyboard'],checks:[{command:'keyboard test',outcome:'not_run',origin:'agent_reported',review:'unreviewed'}]});
  const b=client(root);t.after(()=>b.p.kill());await b.start();const resumed=await call(b,'resume_task',{task_id:task.id});assert.equal(resumed.checkpoint.id,cp.id);assert.equal(resumed.checkpoint.checks[0].outcome,'not_run');assert.equal(resumed.trust,'untrusted_project_context');
  const bad=await b.req('tools/call',{name:'create_task',arguments:{token:randomUUID(),goal:'x',acceptance_criteria:['x'],workspace:'/other'}});assert.ok(bad.error||bad.result.isError);
+});
+
+test('lost write acknowledgement retries the same token without a duplicate',async t=>{
+ const {runProcess}=await import('../src/mcp-process.ts');
+ const root=mkdtempSync(join(tmpdir(),'agentcarry-mcp-retry-'));t.after(()=>rmSync(root,{recursive:true,force:true}));
+ const init=spawnSync(process.execPath,[cli,'init','--new','--max-bytes','1048576','--retention-days','30'],{cwd:root,encoding:'utf8'});assert.equal(init.status,0,init.stderr);
+ const request={token:randomUUID(),goal:'Synthetic retry',acceptance_criteria:['Single task']},input=JSON.stringify(request);
+ // This child commits through the real CLI, then intentionally withholds its acknowledgement.
+ const marker=join(root,'committed');
+ const script="const {spawnSync}=require('node:child_process');const r=spawnSync(process.execPath,[process.argv[1],'task'],{input:process.argv[2],encoding:'utf8'});if(r.status!==0)process.exit(2);require('node:fs').writeFileSync(process.argv[3],'committed');setTimeout(()=>{},10000)";
+ const controller=new AbortController();
+ const pending=runProcess(process.execPath,['-e',script,cli,input,marker],{cwd:root,input:'',timeoutMs:15000,maxBytes:1048576,signal:controller.signal});
+ const deadline=Date.now()+10000;while(!existsSync(marker)&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));
+ assert.ok(existsSync(marker),'write did not commit before deadline');controller.abort();const lost=await pending;
+ assert.equal(lost.ok,false);assert.match(lost.error,/cancelled.*outcome may be unknown/i);
+ const retry=spawnSync(process.execPath,[cli,'task'],{cwd:root,input,encoding:'utf8'});assert.equal(retry.status,0,retry.stderr);
+ const snapshot=spawnSync(process.execPath,[cli,'export'],{cwd:root,encoding:'utf8'});assert.equal(snapshot.status,0,snapshot.stderr);
+ const tasks=JSON.parse(snapshot.stdout).tasks;assert.equal(tasks.length,1);assert.equal(tasks[0].id,JSON.parse(retry.stdout).id);
+});
+
+test('slow subprocess does not block other calls and cancellation stops it',async()=>{
+ const {runProcess}=await import('../src/mcp-process.ts');const controller=new AbortController();
+ const slow=runProcess(process.execPath,['-e','setTimeout(()=>{},10000)'],{cwd:tmpdir(),input:'',timeoutMs:10000,maxBytes:1000,signal:controller.signal});
+ const fast=await runProcess(process.execPath,['-e',"process.stdout.write('ready')"],{cwd:tmpdir(),input:'',timeoutMs:3000,maxBytes:1000});
+ assert.equal(fast.stdout,'ready');assert.equal(fast.ok,true);controller.abort();const result=await slow;
+ assert.equal(result.ok,false);assert.match(result.error,/cancelled.*outcome may be unknown/i);
+ const timed=await runProcess(process.execPath,['-e','setTimeout(()=>{},10000)'],{cwd:tmpdir(),input:'',timeoutMs:200,maxBytes:1000});
+ assert.equal(timed.ok,false);assert.match(timed.error,/timed out.*outcome may be unknown/i);
 });
