@@ -158,4 +158,4 @@ Decision: Add a CLI-only setup-preview for selected Gemini/OpenCode v2 project J
 Reason: Reduce manual assembly of executable/workspace paths while avoiding premature config mutation without preservation/rollback support.
 Alternatives: Auto-edit global settings; output entire existing settings including credentials; treat generated snippets as completed installation.
 Consequences: Store initialization, global/environment precedence, project trust, actual connectivity and version checks remain separate. Local filesystem ownership is still the boundary. A future apply must revalidate rather than trust this mutable preview. No dependency or cloud/model requirement is added.
-Evidence: Linux Node 24.22.1 typecheck, four setup cases and combined 67/67 tests; no Windows or coding-client execution for this change. See SETUP-PREVIEW.md.
+Evidence: Linux Node 24.22.1 typecheck, four setup cases and combined 67/67 tests; user-provided Windows output subsequently reports typecheck, 67/67 tests and a Gemini setup-preview result. This does not establish client configuration or connectivity. See SETUP-PREVIEW.md.

@@ -108,4 +108,4 @@ User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77
 
 ## Read-only project setup planning
 
-[SETUP-PREVIEW.md](SETUP-PREVIEW.md) adds setup-preview for Gemini and OpenCode v2, reporting an entry fragment, exact-match/conflict status and unsupported config cases without writing config or opening storage. Linux typecheck and 67/67 tests passed; Windows reproduction remains pending. Applying changes, backups, conflict-aware rollback, JSONC and actual client setup remain unimplemented. This is partial guided-setup work, not a completed P3 adapter.
+[SETUP-PREVIEW.md](SETUP-PREVIEW.md) adds setup-preview for Gemini and OpenCode v2, reporting an entry fragment, exact-match/conflict status and unsupported config cases without writing config or opening storage. Linux typecheck and 67/67 tests passed; user-provided Windows branch output also reports typecheck, 67/67 tests and a read-only Gemini preview. Applying changes, backups, conflict-aware rollback, JSONC and actual client setup remain unimplemented. This is partial guided-setup work, not a completed P3 adapter.
