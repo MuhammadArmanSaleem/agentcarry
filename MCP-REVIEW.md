@@ -27,3 +27,8 @@ The PR remains draft pending review and the above follow-up. No merge is implied
 User-provided output shows a pull to ef4b54c, npm ci reporting zero vulnerabilities and npm test 59/59 on Windows. A subsequent OpenCode resume display recovered the same task and checkpoint, preserving not_run/agent_reported/unreviewed and unknown freshness. Exact current client versions and the running background server's code revision were not displayed, so this does not independently prove the new server process was loaded. No additional record was requested.
 
 The OpenCode call display included an extra token argument, which resume_task does not accept. A focused Linux protocol regression confirms the current server rejects a resume request containing token; 3/3 MCP tests passed after adding that assertion. Whether the client omitted/normalized that argument, its UI misrepresented it, or a different process/schema was used is unresolved. Do not claim this display proves unknown fields are accepted. A raw request or controlled fresh server connection would be needed to distinguish those cases. These output discrepancies do not establish storage corruption.
+
+
+## Version follow-up
+
+After the resume smoke test, the user ran version commands in the test workspace: Gemini CLI 0.66.0 and OpenCode v2.1.4. These identify the installed clients at that time. They do not retroactively authenticate the earlier Gemini session or the checkpoint's agent-supplied 0.65.0 label; the earlier update timing remains uncertain. No additional tool operation or implementation test was performed for this documentation update.
