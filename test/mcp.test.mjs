@@ -27,6 +27,7 @@ test('separate MCP clients share explicit workspace and preserve reported checkp
  const forbidden=await a.req('tools/call',{name:'save_checkpoint',arguments:{token:randomUUID(),task_id:task.id,parent_checkpoint_ids:[],client:'test-a',client_version:'1',decisions:[],failed_attempts:[],unresolved:[],next_steps:[],checks:[{command:'fake',outcome:'passed',origin:'trusted_integration_observed',review:'unreviewed'}]}});assert.ok(forbidden.error||forbidden.result.isError);
  const cp=await call(a,'save_checkpoint',{token:randomUUID(),task_id:task.id,parent_checkpoint_ids:[],client:'test-a',client_version:'1',decisions:['Use labels'],failed_attempts:['Mouse only'],unresolved:[],next_steps:['Test keyboard'],checks:[{command:'keyboard test',outcome:'not_run',origin:'agent_reported',review:'unreviewed'}]});
  const b=client(root);t.after(()=>b.p.kill());await b.start();const resumed=await call(b,'resume_task',{task_id:task.id});assert.equal(resumed.checkpoint.id,cp.id);assert.equal(resumed.checkpoint.checks[0].outcome,'not_run');assert.equal(resumed.trust,'untrusted_project_context');
+ const extra=await b.req('tools/call',{name:'resume_task',arguments:{task_id:task.id,token:task.id}});assert.ok(extra.error||extra.result.isError,'resume must reject an unexpected token');
  const bad=await b.req('tools/call',{name:'create_task',arguments:{token:randomUUID(),goal:'x',acceptance_criteria:['x'],workspace:'/other'}});assert.ok(bad.error||bad.result.isError);
 });
 

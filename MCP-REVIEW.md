@@ -20,3 +20,10 @@ Status: draft PR review; not release acceptance. The following summarizes user-p
 6. **Verification gaps.** Test unknown or unavailable store, lost acknowledgement, fresh process handoff and abrupt client termination against last acknowledged write; exercise conflicting tips through real clients; run static TypeScript checking and assess MCP request size/protocol boundaries. The current automated MCP test uses simulated clients, not independent full client implementations.
 
 The PR remains draft pending review and the above follow-up. No merge is implied by the passing test or this manual experiment.
+
+
+## Updated Windows and resume evidence
+
+User-provided output shows a pull to ef4b54c, npm ci reporting zero vulnerabilities and npm test 59/59 on Windows. A subsequent OpenCode resume display recovered the same task and checkpoint, preserving not_run/agent_reported/unreviewed and unknown freshness. Exact current client versions and the running background server's code revision were not displayed, so this does not independently prove the new server process was loaded. No additional record was requested.
+
+The OpenCode call display included an extra token argument, which resume_task does not accept. A focused Linux protocol regression confirms the current server rejects a resume request containing token; 3/3 MCP tests passed after adding that assertion. Whether the client omitted/normalized that argument, its UI misrepresented it, or a different process/schema was used is unresolved. Do not claim this display proves unknown fields are accepted. A raw request or controlled fresh server connection would be needed to distinguish those cases. These output discrepancies do not establish storage corruption.
