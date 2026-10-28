@@ -94,3 +94,8 @@ See [schema experiment results](spikes/phase1/SCHEMA-RESULTS.md): eleven additio
 
 
 User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.
+
+
+## Local MCP preview review
+
+[MCP-REVIEW.md](MCP-REVIEW.md) records Linux and user-provided Windows 59-test results, limited prompted Gemini-to-OpenCode continuity, version uncertainty and the OpenCode call-display discrepancy. Code review recommends the unpublished manual preview for a user merge decision, not release or phase acceptance. Follow-ups: static TypeScript checking, guided setup preserving existing config with rollback, lifecycle/process cleanup and wider real-client validation. P1/P2/P3 gates remain open.

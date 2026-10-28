@@ -130,3 +130,14 @@ Evidence: 24/24 labeled cases and 56/56 combined tests passed on Linux x64, Node
 
 
 User-provided Windows x64 output at commit 6d7d03fb59ba0206980a8098e9f3086f14c77e6f, Node 24.22.1 / SQLite 3.53.4: npm test 56/56, eval:knowledge 24/24, and reduced-motion search returned source-linked guidance. This is not a real-agent integration or production durability test.
+
+
+## D017 — Local MCP transport preview
+Date: 2026-10-28. Status: experimental; limited user-reported manual client handoff.
+Decision: Use the pinned official MCP TypeScript server SDK and Zod for local stdio, with one explicit startup workspace and four bounded tools that invoke the existing CLI. The existing CLI remains independently usable without MCP.
+Alternatives: Implement protocol framing by hand; duplicate storage logic in MCP; expose a network server.
+Consequences: MCP requires npm dependencies and starts a local CLI subprocess per call. No config installer, background capture, real-agent compatibility or cloud service is claimed. A trusted client can access the explicitly selected workspace. Static typechecking and full integration remain open.
+Evidence: Linux Node 24.22.1, one simulated MCP handoff test and 57/57 full tests; user-reported Windows tests and a limited actual-client handoff are documented in MCP-REVIEW.md; broad compatibility remains unverified.
+
+
+D017 follow-up: the MCP transport now runs CLI subprocesses asynchronously, propagates request cancellation and reports potentially unknown write outcomes. A Linux test covers retry after simulated acknowledgement loss; see MCP-REVIEW.md. This does not establish full cancellation or process-tree behavior.
