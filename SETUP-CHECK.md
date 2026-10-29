@@ -17,4 +17,11 @@ Gemini trust is reviewed in Gemini by the user. OpenCode's previously reported i
 
 ## Validation
 
-Linux Node 24.22.1: typecheck, seven setup tests, 94/94 full tests and the synthetic setup demo passed. New cases cover uninitialized CLI checks without file creation, hidden secrets, matching/conflicting entries and changing revisions, malformed refusal, invalid database bytes left unopened, and unsafe paths. Windows execution of this new command remains pending. No phase gate or released compatibility is established.
+Linux Node 24.22.1: typecheck, seven setup tests, 94/94 full tests and the synthetic setup demo passed. New cases cover uninitialized CLI checks without file creation, hidden secrets, matching/conflicting entries and changing revisions, malformed refusal, invalid database bytes left unopened, and unsafe paths. Windows missing-config checks are recorded below. No phase gate or released compatibility is established.
+
+
+## Windows follow-up and review
+
+User-reported Windows 10 Command Prompt checks on 2026-10-29: typecheck completed without errors and 94/94 tests passed with no skips. Separate setup-check invocations for both Gemini and OpenCode in the rolled-back disposable workspace returned checked, missing_config, config_revision:missing, local_store:present_not_validated and changes_applied:false. Both reported Node v24.22.1 / SQLite 3.53.4 and left connectivity, client version and trust explicitly not_checked. The branch switch was visible in the test output, but exact checkout HEAD was not printed. This is user-supplied execution evidence, not assistant-observed Windows execution; matching/conflicting live-client diagnostics and the OpenCode first-list cause were not established.
+
+Review: no new blocking defect identified in the added diagnostic path within its documented preview scope. The command shares config validation with setup-preview, does not open local storage, and does not infer client connection from file presence. No runtime changes were required during this review. Prior Linux validation and the reported Windows checks above remain the verification evidence; no phase gate is completed.
