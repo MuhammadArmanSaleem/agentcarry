@@ -26,7 +26,7 @@ Priority targets: Gemini CLI, OpenCode and Antigravity. Later targets: Codex, Cl
 
 Install curated guidance, record a task and failed attempt, save a checkpoint, switch agents, resume against current code, and create a reusable skill draft backed by recorded evidence.
 
-The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 91 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
+The unpublished local preview runs from this checkout with Node 24.22.1: `npm run test:local` and `npm run demo:local`. The demo uses a separate temporary folder. `npm test` runs all 94 current tests; `npm run test:spike` retains the 33 research tests. Git is needed for the complete test suite; the CLI itself needs no npm install or model key; MCP preview requires npm ci. See [LOCAL-PROTOTYPE.md](LOCAL-PROTOTYPE.md). Do not install similarly named packages assuming they belong to this repository.
 
 ## Build contracts
 
@@ -60,3 +60,7 @@ From the intended project workspace, use `node /absolute/path/to/agentcarry/src/
 
 Run `node /absolute/path/to/agentcarry/src/cli.ts setup` from the intended disposable workspace in a terminal. The menu handles client selection, preview/confirmation, optional explicit store initialization, undo and backup forgetting without copied JSON or revision hashes. It does not launch clients, change trust or establish connectivity. See [SETUP-WIZARD.md](SETUP-WIZARD.md) for limits and [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) for separate user-reported checks of lower-level setup.
 
+
+## Local setup diagnostics
+
+Run `node /absolute/path/to/agentcarry/src/cli.ts setup-check gemini` or `setup-check opencode` from the intended workspace. This read-only inspection works before initialization, withholds config bodies, and reports configuration revisions and suggested next steps. It does not establish a client connection. See [SETUP-CHECK.md](SETUP-CHECK.md).

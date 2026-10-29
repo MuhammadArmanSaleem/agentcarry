@@ -124,3 +124,7 @@ Setup review follow-up: fixed a concurrent abandoned-lock recovery race using an
 
 [SETUP-WIZARD.md](SETUP-WIZARD.md) adds confirmed initialization/client setup and explicit menu-based undo/forget over existing core operations. Linux typecheck, 10 focused tests, 91 full tests, setup demo and a pseudo-terminal install/cancellation smoke passed. User-reported Windows wizard checks cover cancellation, fresh initialization and both clients' configure/connect/undo/forget. Connection diagnostics, exact version qualification, Windows Ctrl+C/rendering, packaging, automatic capture and full phase gates remain pending. [CLIENT-SETUP-CHECKS.md](CLIENT-SETUP-CHECKS.md) records separate user-provided basic lower-level client setup/rollback/forget and Windows recovery-fix test results.
 
+
+## Local setup diagnostics follow-up
+
+[SETUP-CHECK.md](SETUP-CHECK.md) documents read-only setup-check for Gemini/OpenCode. It reports local config state/revision and store file presence without opening SQLite or launching clients. Linux typecheck, seven setup tests, 94 full tests and the setup demo passed. User-reported Windows typecheck and 94/94 tests passed; both clients' missing-config diagnostics returned the expected metadata on Node v24.22.1 / SQLite 3.53.4. See SETUP-CHECK.md for evidence limits. It does not diagnose the cause of OpenCode's initial missing-server result, establish trust/connectivity or complete any phase gate.

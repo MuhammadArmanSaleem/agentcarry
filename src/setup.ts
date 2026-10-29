@@ -70,3 +70,33 @@ export function previewSetup(workspace:string,client:string) {
     scope:'project',capture:'manual',initialization:'not_checked',
     warnings:['preview_only_no_files_written','existing_settings_not_included','memory_tools_require_an_initialized_local_store','global_and_environment_config_not_assessed','client_version_not_checked']};
 }
+
+// Inspect only local configuration and file metadata. Never open SQLite or launch a client.
+export function checkSetup(workspace:string,client:string) {
+  const s=inspectSetup(workspace,client);
+  const directory=stat(join(s.root,'.agentcarry'));
+  let store:string='missing';
+  if(directory){
+    if(directory.isSymbolicLink()||!directory.isDirectory())store='unsafe';
+    else {
+      const db=stat(join(s.root,'.agentcarry','local.sqlite'));
+      if(db)store=db.isSymbolicLink()||!db.isFile()||db.nlink!==1?'unsafe':'present_not_validated';
+    }
+  }
+  const configuration=s.status==='already_configured'?'matches':s.status==='conflict'?'conflict':s.raw===null?'missing_config':'missing_entry';
+  const next_steps:string[]=[];
+  if(store==='unsafe')next_steps.push('Inspect the unsafe local store path before running setup.');
+  else if(store==='missing')next_steps.push(configuration==='matches'
+    ?'Use init --new with explicit quota and retention to initialize this workspace; setup does not adopt an existing matching entry.'
+    :'Run setup from this workspace to review and explicitly initialize local storage.');
+  else next_steps.push('Run doctor separately to validate the local store; this check did not open it.');
+  if(configuration==='conflict')next_steps.push('Inspect the differing AgentCarry entry manually; setup will not overwrite it.');
+  else if(configuration!=='matches')next_steps.push('Run setup from this workspace to review the missing project-local entry.');
+  else next_steps.push(`Run ${client} mcp list from this workspace to check the client connection.`);
+  if(client==='gemini')next_steps.push('If Gemini reports an untrusted workspace, review trust in Gemini; AgentCarry does not change trust.');
+  if(client==='opencode')next_steps.push('If the first listing reports no servers, compare this config revision and repeat the listing before editing; the previously observed first-lookup miss has no established cause.');
+  return {status:'checked',client:s.client,workspace:s.root,config_path:s.path,configuration,
+    config_revision:s.revision,local_store:store,node:process.version,sqlite:process.versions.sqlite,
+    changes_applied:false,connectivity:'not_checked',client_version:'not_checked',trust:'not_checked',capture:'manual',
+    scope:'project',global_and_environment_config:'not_assessed',next_steps};
+}
