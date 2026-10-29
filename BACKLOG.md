@@ -128,3 +128,8 @@ Setup review follow-up: fixed a concurrent abandoned-lock recovery race using an
 ## Local setup diagnostics follow-up
 
 [SETUP-CHECK.md](SETUP-CHECK.md) documents read-only setup-check for Gemini/OpenCode. It reports local config state/revision and store file presence without opening SQLite or launching clients. Linux typecheck, seven setup tests, 94 full tests and the setup demo passed. User-reported Windows typecheck and 94/94 tests passed; both clients' missing-config diagnostics returned the expected metadata on Node v24.22.1 / SQLite 3.53.4. See SETUP-CHECK.md for evidence limits. It does not diagnose the cause of OpenCode's initial missing-server result, establish trust/connectivity or complete any phase gate.
+
+
+## Automated preview checks
+
+[CI.md](CI.md) introduces Linux/Windows GitHub Actions jobs for locked install, runtime metadata, typecheck, full tests and synthetic setup demo. Initial hosted execution remains pending; prior local/Windows runs do not validate the workflow itself. No branch-protection, deployment or actual-client qualification is added.
